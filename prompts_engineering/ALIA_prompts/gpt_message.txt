@@ -1,0 +1,34 @@
+taken from ALIA paper: 
+https://arxiv.org/pdf/2305.16289.pdf
+
+We assume that the amount of training data is not small (< 100 samples). Therefore, we use an LLM
+to summarize these captions into a list of domains which are agnostic of the class. Due to constraints
+on context length, we randomly sample 200 unique captions and use the following prompt:
+
+“
+I have a set of image captions that I want to summarize into objective descriptions
+that describe the scenes, actions, camera pose, zoom, and other image qualities
+present. My captions are 
+[CAPTIONS]
+I want the output to be a handful of
+captions that describe a unique setting, of the form [PREFIX]
+”
+
+We then ask a refinement question to ensure each caption is of only one setting and agnostic of the
+class with the following prompt:
+
+“Can you modify your response so each caption is agnostic of the type of [SUPERCLASS]. Please output less than 10 captions which cover the largest breadth of
+concepts.”
+
+
+planes:
+https://chat.openai.com/share/79947ed3-2c5a-4883-aab2-59c688f8f2fc
+
+cars:
+https://chat.openai.com/share/7c2150c7-30cc-46eb-9cf6-75099bcea0cd
+
+compcars-parts:
+https://chat.openai.com/share/9070d648-8fc4-4866-8ea2-4344bfd2a4e1
+
+CUB:
+https://chat.openai.com/share/9833755a-a37d-4f95-aa7a-1cd3ab53483e

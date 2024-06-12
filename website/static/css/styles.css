@@ -1,0 +1,129 @@
+    /* Basic setup and normalization */
+    * {
+        box-sizing: border-box; /* Include padding and borders in the width calculation */
+        margin: 0; /* Resets margin for all elements */
+        padding: 0; /* Resets padding for all elements */
+    }
+
+    body {
+        font-family: 'Google Sans', 'Noto Sans', 'Castoro', Arial, sans-serif; /* Font family */
+        background-color: #f4f4f4; /* Background color of the body */
+        overflow-x: hidden; /* Prevents horizontal scrolling */
+    }
+
+    /* Section styling */
+    .section {
+        border: 1px solid #ddd;
+        padding: 20px;
+        margin: 20px auto;
+        background-color: #ffffff;
+        max-width: 1100px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        margin-bottom: 20px; /* Additional bottom margin */
+    }
+
+    /* Container and layout */
+    .container {
+        width: 100%;
+        max-width: 100%; /* Ensures container is always full width */
+        margin: 0 auto; /* Center aligns the container */
+    }
+
+    /* Image and caption styling */
+    figure, .image, .image-spacing {
+        width: 100%;
+        max-width: 100%; /* Ensures images and figures do not exceed screen width */
+        display: block;
+        margin: 0 auto; /* Centers images */
+    }
+
+    .image-caption {
+        text-align: center;
+        font-size: 18px; /* Unified font size for all image captions */
+        color: #666; /* Font color for image captions */
+        padding: 10px;
+        line-height: 1.2;
+        margin-top: 10px; /* Space above captions */
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+    }
+
+    /* Hover effect for tables */
+    .table.is-hoverable tr:hover {
+        background-color: #f2f2f2 !important;
+    }
+
+    /* Footer styling */
+    .footer {
+        background-color: #333;
+        color: #fff;
+        padding: 40px 0; /* Vertical padding */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        width: 100%;
+        font-size: 14px;
+    }
+
+    .footer a {
+        color: #fff;
+        text-decoration: underline;
+    }
+
+    .footer .container {
+        text-align: center;
+    }
+
+    .footer .columns {
+        justify-content: center;
+        text-align: center;
+    }
+
+    .footer .content, .footer .column {
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex: 1;
+    }
+
+    /* Text and links */
+    .title {
+        text-align: center;
+        color: #333;
+    }
+
+    .content {
+        text-align: justify;
+        color: #333;
+    }
+
+    .publication-title {
+        margin-bottom: 10px;
+    }
+
+    .publication-authors {
+        margin-bottom: 20px;
+    }
+
+    .publication-links {
+        margin-top: 20px;
+    }
+
+    .link-block {
+        margin-right: 10px;
+    }
+
+    .custom-left {
+        display: block;
+        margin-left: 40%;
+        margin-right: auto;
+    }
+
+    @media (max-width: 400px) {
+        .image-caption {
+            font-size: 5vw; /* Adjusted for smaller devices */
+        }
+    }

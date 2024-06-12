@@ -1,0 +1,35 @@
+ARTISTIC_PROMPTS = [
+    "a painting of van gogh",
+    "a painting of monet",
+    "a painting of picasso",
+    "a painting of da vinci",
+    "a painting of michelangelo",
+    "a painting of rembrandt",
+    "a painting of raphael",
+    "a painting of vermeer",
+    "a painting of degas",
+    "a painting of klimt",
+]
+
+IMAGE_VARIATIONS_PROMPTS = [
+    "High-Speed",
+    "Lens Flare",
+    "HDR (High Dynamic Range)",
+    "Fish-Eye Lens",
+    "Black and White",
+    "Long Exposure",
+    "Macro",
+    "Panoramic",
+    "Tilt-Shift",
+    "Infrared",
+    "Bokeh",
+    "Time-Lapse",
+    "Underwater",
+    "Double Exposure",
+    "Sepia Tone",
+    "Vintage Look",
+    "Solarized",
+    "Low Light",
+    "Motion Blur",
+    "Cross Processed"
+]

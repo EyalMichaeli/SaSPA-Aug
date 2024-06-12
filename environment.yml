@@ -1,0 +1,32 @@
+name: saspa
+channels:
+  - pytorch
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.10
+  - numpy
+  - pandas
+  - matplotlib
+  - seaborn
+  - tqdm
+  - pip
+  - pip:
+      - torch # If specific version and CUDA support is needed, replace with torch==2.0.1 -f https://download.pytorch.org/whl/cu118
+      - torchvision # Similarly, replace with torchvision==0.15.2 -f https://download.pytorch.org/whl/cu118
+      - diffusers
+      - opencv-python
+      - imageio
+      - omegaconf
+      - openai
+      - openai-clip
+      - salesforce-lavis
+      - controlnet-aux==0.0.5
+      - opencv-python==4.8.0.74
+      - wandb
+      - git+https://github.com/ildoonet/cutmix
+      - accelerate
+      - boto3
+      - invisible-watermark>=0.2.0
+      - cleanlab
+      - keytotext
