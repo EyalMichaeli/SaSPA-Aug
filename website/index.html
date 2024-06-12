@@ -16,10 +16,28 @@
         overflow-x: hidden; /* Prevents horizontal scrolling */
     }
     .section, .hero {
-        margin-bottom: 20px; /* Adds space between sections */
-        padding-top: 20px; /* Adds space above the hero content */
-        padding-bottom: 20px; /* Adds space below the hero content */
+    margin-bottom: 20px; /* Adds space between sections */
+    padding: 20px; /* Padding inside the sections */
+    background-color: #fff; /* White background for each section */
+    box-shadow: 0 0 10px #999; /* Shadow around the sections for a bounded appearance */
+    border-radius: 15px; /* Rounded corners */
+    width: 65%; /* Adjust width to match your layout needs */
+    margin: 25px auto; /* Centering the section with automatic horizontal margins */
     }
+
+    @media (max-width: 768px) { /* Adjustments for tablets and smaller */
+        .section, .hero {
+            width: 95%; /* Wider sections on smaller screens */
+        }
+    }
+
+    .container {
+        width: 100%; /* Ensure the container takes full width */
+        max-width: 100%; /* Prevents the container from exceeding the width of its parent */
+        padding: 0; /* No padding inside the container to allow full-width sections */
+        margin: 0 auto; /* Center the container */
+    }
+
     .footer {
     padding: 40px 0; /* Adds vertical padding */
     }
@@ -151,7 +169,7 @@
     <!-- A -->
     <div class="columns is-centered has-text-centered">
       <div class="column is-full-width">
-        <h2 class="title is-3">Qualitative Demonstration of Our Approach</h2>
+        <h2 class="title is-3">Qualitative Comparison of Our Approach</h2>
         <!-- <h2 class="title is-3">SaSPA Overview</h2> -->
         <!-- <p class="subtitle">Below is a visual guide to the stages in our image generation workflow.</p> -->
         <div class="content has-text-justified">
@@ -160,7 +178,7 @@
           <img src="./assets/teaser.svg" class="image-spacing, center" style="width: 1000px">
 	  	    <!-- <img src="./assets/approach.png" class="center" style="width: 750px"> -->
           <figcaption class="center image-caption" style="width: 950px">
-            Various generative augmentation methods applied on the Aircraft dataset. Text-to-image often compromises class fidelity, visible by the unrealistic aircraft design (i.e., tail at both ends). Img2Img trades off fidelity and diversity: lower strength (e.g., 0.5) introduces minimal semantic changes, resulting in higher fidelity but limited diversity, whereas higher strength (e.g., 0.75) introduces diversity but also inaccuracies such as the incorrectly added engine. In contrast, SaSPA achieves high fidelity and diversity, critical for Fine-Grained Visual Classification tasks. <em>D - Diversity. F - Fidelity</em>
+            Various generative augmentation methods applied on the Aircraft dataset. Text-to-image often compromises class fidelity, visible by the unrealistic aircraft design (i.e., tail at both ends). Img2Img trades off fidelity and diversity: lower strength (e.g., 0.5) introduces minimal semantic changes, resulting in higher fidelity but limited diversity, whereas higher strength (e.g., 0.75) introduces diversity but also inaccuracies such as the incorrectly added engine. In contrast, SaSPA achieves high fidelity and diversity, critical for Fine-Grained Visual Classification tasks. <strong>D - Diversity. F - Fidelity</strong>
           </figcaption>
 	  	</figure>
       </div>
