@@ -59,9 +59,6 @@
             padding: 5px;
         }
     }
-    .table.is-hoverable tr:hover {
-        background-color: #f2f2f2 !important; /* Adding !important to test overriding issues */
-    }
     .footer {
     display: flex;
     justify-content: center;
@@ -104,6 +101,9 @@
   .table.is-hoverable tr:hover {
         background-color: #ffffff ;
     }
+  .table.is-hoverable tr:hover {
+      background-color: #f2f2f2 !important; /* Adding !important to test overriding issues */
+  }
 </style>
 </head>
 <body>
@@ -138,7 +138,7 @@
               </span>
               <!-- Code Link. -->
               <span class="link-block">
-                <a href="https://github.com/EyalMichaeli/SaSPA"
+                <a href="https://github.com/EyalMichaeli/SaSPA-Aug"
                    class="external-link button is-normal is-rounded is-dark">
                   <span class="icon">
                       <i class="fab fa-github"></i>
@@ -149,8 +149,7 @@
             </div>
             <br>
             <p class="is-size-5 publication-title has-text-black">
-                This paper presents SaSPA, a generative data augmentation method for fine-grained visual classification (FGVC). Our findings indicate that recent Img2Img-based augmentation methods limit the beneficial diversity. Therefore, we employed alternative conditioning mechanisms to ensure accurate representation of the sub-classes. Results show that our method consistently outperforms existing augmentation methods.
-                <br>
+              SaSPA enhances fine-grained classification datasets by generating realistic, class-consistent image augmentations from the training set. This consistently leads to significant accuracy improvements.                <br>
               </p>
             </div>
             </div>
@@ -168,7 +167,7 @@
     <!-- A -->
     <div class="columns is-centered has-text-centered">
       <div class="column is-full-width">
-        <h2 class="title is-3">Qualitative Comparison of Our Approach</h2>
+        <h2 class="title is-3">Qualitative Comparison</h2>
         <!-- <h2 class="title is-3">SaSPA Overview</h2> -->
         <!-- <p class="subtitle">Below is a visual guide to the stages in our image generation workflow.</p> -->
         <div class="content has-text-justified">
@@ -219,7 +218,7 @@
     <div class="columns is-centered has-text-centered">
       <div class="column is-full-width">
         <h2 class="title is-3">SaSPA Overview</h2>
-        <p class="subtitle">Below is a visual guide to the stages in our image generation workflow.</p>
+        <!-- <p class="subtitle">Below is a visual guide to the stages in our image generation workflow.</p> -->
         <div class="content has-text-justified">
         </div>
         <figure class="image" id="fig-method">
@@ -227,7 +226,7 @@
 	  	    <!-- <img src="./assets/approach.png" class="center" style="width: 750px"> -->
          <figcaption
           class="center image-caption"  style="width: 950px">
-          <strong>SaSPA Pipeline:</strong> For a given FGVC dataset, we generate prompts via GPT-4 based on the meta-class. Each real image undergoes edge detection to provide structural outlines. These edges are used multiple times, each time with a different prompt and a different subject reference image from the same sub-class, as inputs to a ControlNet with BLIP-Diffusion as the base model. The generated images are then filtered using a dataset-trained model and CLIP to ensure relevance and quality.
+          For a given FGVC dataset, we generate prompts via GPT-4 based on the meta-class. Each real image undergoes edge detection to provide structural outlines. These edges are used multiple times, each time with a different prompt and a different subject reference image from the same sub-class, as inputs to a ControlNet with BLIP-Diffusion as the base model. The generated images are then filtered using a dataset-trained model and CLIP to ensure relevance and quality.
         </figcaption>
 	  	</figure>
       </div>
@@ -262,7 +261,7 @@
     <div class="columns is-centered has-text-centered">
       <div class="column is-full-width">
         <h2 class="title is-3">Results on Full FGVC Datasets</h2>
-        <p class="subtitle">Assessment of accuracy improvements using traditional, generative, and our own data augmentation methods on various FGVC datasets.</p>
+        <p class="subtitle">Our method produces better accuracy than both traditional and recent generative augmentation methods.</p>
         <div class="content has-text-justified">
           <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
             <thead>
