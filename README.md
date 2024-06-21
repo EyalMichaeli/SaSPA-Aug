@@ -1,6 +1,6 @@
 # SaSPA: Advancing Fine-Grained Classification by Structure and Subject Preserving Augmentation
 
-![Teaser Image](images/teaser.png)
+![Teaser Image](docs/assets/teaser.png)
 
 
 [![Github](https://img.shields.io/badge/Github%20webpage-222222.svg?style=for-the-badge&logo=github)](https://eyalmichaeli.github.io/SaSPA-Aug/)
