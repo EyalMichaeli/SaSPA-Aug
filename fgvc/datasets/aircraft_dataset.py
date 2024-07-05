@@ -4,10 +4,11 @@ from torchvision.datasets import FGVCAircraft
 
 from fgvc.datasets.aug_wrapper_dataset import AugWrapperDataset
 
+ROOT = '/mnt/raid/home/eyal_michaeli/datasets/FGVC-Aircraft'
 
 class Planes(AugWrapperDataset, FGVCAircraft):
-    def __init__(self, root='/mnt/raid/home/user_name/datasets/FGVC-Aircraft', 
-                 split='train', transform=None, target_transform=None, download=False, train_sample_ratio=1.0,
+    def __init__(self, root=ROOT, 
+                 split='train', transform=None, target_transform=None, download=True, train_sample_ratio=1.0,
                  aug_json=None, aug_sample_ratio=None, limit_aug_per_image=None, few_shot=None, print_func=logging.info):
         
         # First, get the needed vars: self._image_files, self._labels, self.num_classes, self.dataset_name

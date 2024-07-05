@@ -4,15 +4,16 @@ timestamp=$(date +"%Y-%m-%d_%H-%M-%S")
 ############################################################################################################
 # Define the hyperparameter values
 
-dataset="cars"
+dataset="planes"
+
 # create the dir if doesnt exist:
 mkdir -p logs/scripts_ran
 cp fgvc/trainings_scripts/consecutive_runs_aug.sh fgvc/logs/scripts_ran/$timestamp-$dataset-consecutive_runs_aug.sh
 
 net="resnet50"
 gpu_id="0"
-aug_json="/mnt/raid/home/eyal_michaeli/datasets/stanford_cars/aug_data/controlnet/blip_diffusion/canny/gpt-meta_class_prompt_w_sub_class_style_img_from_diff_img/v1-res_512-num_2-gs_7.5-num_inf_steps_50_controlnet_scale_0.75_low_120_high_200_seed_0/semantic_filtering-model_confidence_based_filtering_top_10_classes-aug.json"
-run_name="aug-blip_diff-ref_img_from_diff_img-controlNet-canny-gpt_prompts"
+aug_json="/mnt/raid/home/eyal_michaeli/datasets/FGVC-Aircraft/fgvc-aircraft-2013b/aug_data/controlnet/sd_v1.5/canny/gpt-meta_class_prompt_w_sub_class_artistic_prompts_p_0.5/v2-2x-res_512-num_3-gs_7.5-num_inf_steps_30_controlnet_scale_0.75_low_120_high_200_seed_1/semantic_filtering-model_confidence_based_filtering_top_10_classes-aug.json"
+run_name="saspa"
 # iterate over
 seeds=("1" "2" "3")
 train_sample_ratios=("1.0")

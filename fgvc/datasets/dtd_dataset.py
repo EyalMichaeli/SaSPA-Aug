@@ -13,13 +13,15 @@ from torchvision.datasets import DTD
 from fgvc.datasets.aug_wrapper_dataset import AugWrapperDataset
 
 
+ROOT = '/mnt/raid/home/eyal_michaeli/datasets/DTD'
+
 class DTDataset(AugWrapperDataset, DTD):
     """
     DTD dataset.
     https://www.robots.ox.ac.uk/~vgg/data/dtd/
     https://paperswithcode.com/sota/image-classification-on-dtd
     """
-    def __init__(self, root='/mnt/raid/home/user_name/datasets/DTD', 
+    def __init__(self, root=ROOT, 
                  split='train', transform=None, target_transform=None, download=True, train_sample_ratio=1.0,
                  aug_json=None, aug_sample_ratio: float = None, limit_aug_per_image: int = None, print_func=logging.info, few_shot=None):
         DTD.__init__(self, root=root, split=split, transform=transform, target_transform=target_transform, download=download)

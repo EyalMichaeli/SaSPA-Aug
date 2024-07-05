@@ -91,8 +91,8 @@ DATASET_TO_LABEL_DICT =  {
 
 if __name__ == "__main__":
     """
-    CUDA_VISIBLE_DEVICES=3 nohup python /mnt/raid/home/user_name/git/thesis_utils/prompts_engineering/txt2sentance_prompts.py  > /mnt/raid/home/user_name/git/thesis_utils/prompts_engineering/txt2sentance_prompts.log 2>&1 &
-    CUDA_VISIBLE_DEVICES=2 python /mnt/raid/home/user_name/git/thesis_utils/prompts_engineering/txt2sentance_prompts.py
+    CUDA_VISIBLE_DEVICES=3 nohup python /mnt/raid/home/eyal_michaeli/git/thesis_utils/prompts_engineering/txt2sentance_prompts.py  > /mnt/raid/home/eyal_michaeli/git/thesis_utils/prompts_engineering/txt2sentance_prompts.log 2>&1 &
+    CUDA_VISIBLE_DEVICES=2 python /mnt/raid/home/eyal_michaeli/git/thesis_utils/prompts_engineering/txt2sentance_prompts.py
     """
     from keytotext import pipeline
 
@@ -101,7 +101,7 @@ if __name__ == "__main__":
     # args
     NUM_PER_CLASS = 30  # number of sentences to generate for each class (e.g. a kia picanto, a toyota corolla, etc.)
     NUM_GENERAL = 200  # number of sentences for the general class (e.g. "A car", "A plane", etc.)
-    OUTPUT_PATH = "/mnt/raid/home/user_name/git/thesis_utils/prompts_engineering/txt2sentences_prompts"
+    OUTPUT_PATH = "/mnt/raid/home/eyal_michaeli/git/thesis_utils/prompts_engineering/txt2sentences_prompts"
     DATASET = "dtd" 
 
     # cll_classes = True means it will create prompts for each subclass. False means it will create prompts for the general class (e.g. "A car", "A plane", etc.)

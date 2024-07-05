@@ -23,10 +23,10 @@ def get_unique_prompts(captions_dict: dict):
 if __name__ == "__main__":
     dataset_name = "dtd"
     captions_to_use = 200
-    captions_dict = read_captions_from_json(f"/mnt/raid/home/user_name/git/thesis_utils/prompts_engineering/captions/{dataset_name}_captions.json")
+    captions_dict = read_captions_from_json(f"/mnt/raid/home/eyal_michaeli/git/thesis_utils/prompts_engineering/captions/{dataset_name}_captions.json")
     unique_prompts = get_unique_prompts(captions_dict)
     unique_prompts = random.sample(unique_prompts, captions_to_use)
-    output_file = f"/mnt/raid/home/user_name/git/thesis_utils/prompts_engineering/ALIA_prompts/chosen_captions/{dataset_name}_unique_prompts.txt"
+    output_file = f"/mnt/raid/home/eyal_michaeli/git/thesis_utils/prompts_engineering/ALIA_prompts/chosen_captions/{dataset_name}_unique_prompts.txt"
     Path(output_file).parent.mkdir(parents=True, exist_ok=True)
     with open(output_file, "w") as f:
         for prompt in unique_prompts:

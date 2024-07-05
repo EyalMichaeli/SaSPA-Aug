@@ -16,6 +16,8 @@ import wandb
 from torch.cuda.amp import GradScaler
 from torch import autocast
 
+torch.tensor([1.0]).cuda()  # this is to initialize cuda, so that the next cuda calls will not be slow. This can also prevent bugs
+
 # to ignore a pytorch 2 compile logging:
 # import torch._dynamo
 # torch._dynamo.config.suppress_errors = True
@@ -228,9 +230,15 @@ def main(args):
         if not DEBUG:
             # only if pytorch 2.0 is installed
             if int(torch.__version__[0]) >= 2:
-                logging.info(f"Using torch compile, pytorch version: {torch.__version__}")
-                net = torch.compile(net)  # only if pytorch 2.0 is installed
-                logging.info("Done compiling the model")
+                try:
+                    logging.info(f"Using torch compile, pytorch version: {torch.__version__}")
+                    logging.info(f"You have torch > 2.0.0 you can use torch.compile. if so, uncomment the beow line, pytorch version: {torch.__version__}. For now, not compiling.")
+                    # net = torch.compile(net)  # only if pytorch 2.0 is installed
+                    logging.info("Done compiling the model")
+                except Exception as e:
+                    logging.info(f"Failed to compile the model, error: {e}")
+                    logging.info(traceback.format_exc())
+                    logging.info("Continuing without torch compile")
             else:
                 logging.info(f"Pytorch 2.0 is not installed, not using torch compile, pytorch version: {torch.__version__}")
 
@@ -258,11 +266,11 @@ def main(args):
                 image_stem_to_class_dict = cars.get_image_stem_to_class_dict()  # id --> class
 
             
-            tokenized_prompts = torch.cat([clip.tokenize(p) for p in prompts]).cuda()
+            tokenized_prompts = torch.cat([clip.tokenize(p) for p in prompts]).to("cuda")
             clip_selector = losses.CLIP_selector(model, preprocess, preprocess, tokenized_prompts)
 
         # feature_center: size of (#classes, #attention_maps * #channel_features)
-        feature_center = torch.zeros(num_classes, config.num_attentions * net.num_features).cuda()
+        feature_center = torch.zeros(num_classes, config.num_attentions * net.num_features).to("cuda")
         
 
         if config.ckpt and os.path.isfile(config.ckpt):
@@ -281,12 +289,12 @@ def main(args):
 
             # load feature center
             if 'feature_center' in checkpoint:
-                feature_center = checkpoint['feature_center'].cuda()
+                feature_center = checkpoint['feature_center'].to("cuda")
                 logging.info('feature_center loaded from {}'.format(config.ckpt))
 
         logging.info('Network weights save to {}'.format(config.save_dir))
 
-        net.cuda()
+        net.to("cuda")
 
         learning_rate = config.learning_rate
         logging.info(f"Learning rate: {learning_rate}")
@@ -430,8 +438,8 @@ def train(**kwargs):
         optimizer.zero_grad()
 
         # obtain data for training
-        X = X.cuda()
-        y = y.cuda()
+        X = X.to("cuda")
+        y = y.to("cuda")
 
         y_pred_raw, y_pred_aux, feature_matrix, attention_map = net(X)
 
@@ -576,8 +584,8 @@ def validate(**kwargs):
             if DEBUG and i > 100:
                 break
             # obtain data
-            X = X.cuda()
-            y = y.cuda()
+            X = X.to("cuda")
+            y = y.to("cuda")
 
             ##################################
             # Raw Image
@@ -720,7 +728,7 @@ def get_args_for_debug():
     args.special_aug = "classic"
     args.logdir = f'logs/{args.dataset}/test_delete_me'
     args.train_sample_ratio = 1.0
-    args.aug_json = None # "/mnt/raid/home/user_name/datasets/stanford_cars/aug_data/regular/sd_v1.5-SDEdit_strength_0.5/None/ALIA_prompt_w_sub_class/v1-complete_ALIA-res_512-num_2-gs_7.5-num_inf_steps_30_seed_0/semantic_filtering-alia_conf_filtering-aug.json"
+    args.aug_json = None # "/mnt/raid/home/eyal_michaeli/datasets/stanford_cars/aug_data/regular/sd_v1.5-SDEdit_strength_0.5/None/ALIA_prompt_w_sub_class/v1-complete_ALIA-res_512-num_2-gs_7.5-num_inf_steps_30_seed_0/semantic_filtering-alia_conf_filtering-aug.json"
     args.aug_sample_ratio = 0.5
     args.few_shot = None
     return args
@@ -729,7 +737,7 @@ def get_args_for_debug():
 USE_AMP = True
 DONT_WANDB = False
 DEBUG = 0
-RUN_SCRIPT_HERE =1
+RUN_SCRIPT_HERE = 0
 if __name__ == '__main__':
     args = get_args() if not DEBUG else get_args_for_debug()
     args = get_args_for_debug() if DEBUG or RUN_SCRIPT_HERE else args

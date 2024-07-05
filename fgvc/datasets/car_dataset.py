@@ -12,10 +12,10 @@ from torchvision.datasets import StanfordCars
 
 from fgvc.datasets.aug_wrapper_dataset import AugWrapperDataset
 
-
+ROOT = "/mnt/raid/home/eyal_michaeli/datasets/"
 class Cars(AugWrapperDataset, StanfordCars):
-    def __init__(self, root: str = "/mnt/raid/home/user_name/datasets/", split: str = "train", 
-                 transform: Optional[Callable] = None, target_transform: Optional[Callable] = None, download: bool = False, 
+    def __init__(self, root: str = ROOT, split: str = "train", 
+                 transform: Optional[Callable] = None, target_transform: Optional[Callable] = None, download: bool = True, 
                  train_sample_ratio: float = 1.0, aug_json: str = None, aug_sample_ratio: float = None, 
                  limit_aug_per_image: int = None, print_func=logging.info, few_shot=None, create_val_split=False):
         split_to_load = 'train' if split == 'val' else split  

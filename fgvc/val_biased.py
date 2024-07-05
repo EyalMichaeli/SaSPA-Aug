@@ -79,7 +79,7 @@ def main(model_path, batch_size=128):
 
 if __name__ == "__main__":
 
-    cp_folder = "/mnt/raid/home/user_name/git/thesis_utils/fgvc/logs/planes_biased"
+    cp_folder = "/mnt/raid/home/eyal_michaeli/git/thesis_utils/fgvc/logs/planes_biased"
     # run it for every checkpoit in the folder. the folder has subfolders, and some of them has checkpoints (ends with .pth)
     # if a sub folder has a checkpoint,, run on it and print the results, together with the sub folder name
     for folder in tqdm(Path(cp_folder).iterdir()):

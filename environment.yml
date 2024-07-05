@@ -30,3 +30,5 @@ dependencies:
       - invisible-watermark>=0.2.0
       - cleanlab
       - keytotext
+      - transformers==4.36.2
+      - setuptools==69.5.1

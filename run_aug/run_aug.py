@@ -2,7 +2,6 @@ import logging
 import random
 import sys
 import os
-import gc
 from pathlib import Path
 import traceback
 from tqdm import tqdm
@@ -28,13 +27,12 @@ from prompts_engineering import blip_utils, ARTISTIC_PROMPTS, IMAGE_VARIATIONS_P
 from all_utils import utils
 from all_utils import dataset_utils
 
-from fgvc.configs import base_args
-from fgvc.train import main as main_training_function
-
 # to ignore a pytorch 2 compile logging:
 import torch._dynamo
 torch._dynamo.config.suppress_errors = True
 
+
+sys.path.append("..")
 
 
 assert torch.cuda.is_available(), "CUDA is not available"
@@ -504,7 +502,7 @@ def main(base_model, controlnet, SDEdit, device="cuda:0"):
 if __name__ == "__main__":
     """
     CUDA_VISIBLE_DEVICES=0 nohup sleep 10m; python run_aug/run_aug.py > run_aug/run_aug.log 2>&1 &
-    CUDA_VISIBLE_DEVICES=3 nohup python run_aug/run_aug.py > run_aug/run_aug.log 2>&1 &
+    CUDA_VISIBLE_DEVICES=0 nohup python run_aug/run_aug.py > run_aug/run_aug.log 2>&1 &
     CUDA_VISIBLE_DEVICES=0 python run_aug/run_aug.py
     """
     DEBUG = 0  # wont use pytorch 2.0 compile (it's slow) and will use 4 paths only
@@ -513,8 +511,8 @@ if __name__ == "__main__":
     version = "v1"  # version of the run, you can add smth to help you remember what you did
 
     # dataset generation params:
-    DATASET = "cars"  
-    BASE_MODEL = "blip_diffusion"  # out of "sd_v1.5", "sd_v2.1", "sd_xl", "sd_xl-turbo", "blip_diffusion"
+    DATASET = "planes"  
+    BASE_MODEL = "sd_v1.5"  # out of "sd_v1.5", "sd_v2.1", "sd_xl", "sd_xl-turbo", "blip_diffusion"
     CONTROLNET = "canny"  # "canny"  # out of None, "canny", "hed"
     SDEDIT = 0  # if True, will do IMG2IMG edit. LECF is from scratch, ALIA is 0.5
     NUM_PER_IMAGE = 2 # number of augmentations to generate per image
@@ -523,7 +521,7 @@ if __name__ == "__main__":
     # prompts params:
     PROMPT_TYPE = "gpt-meta_class"  # out of "txt2sentence", "txt2sentence-per_class", "captions", "gpt-meta_class", "ALIA"
     PROMPT_WITH_SUB_CLASS = True  # the prompt will contain the sub class of the image (e.g. "a Boing 707-320 plane ...")
-    USE_ARTISTIC_PROMPTS = False  # if True, will use artistic prompts (e.g. "a painting of a ...") at the end of used prompts
+    USE_ARTISTIC_PROMPTS = True  # if True, will use artistic prompts (e.g. "a painting of a ...") at the end of used prompts
     ARTISTIC_PROMPTS_PROB = 0.5  # the probability to use artistic prompts
     USE_CAMERA_VARIATIONS_PROMPTS = False  # if True, will use camera variations prompts (e.g. "High-Speed, Lens Flare) at the end of used prompts. will not combine artistic prompts with this
     CAMERA_VAIRATIONS_PROB = 0.5  # the probability to use camera variations prompts
@@ -531,9 +529,9 @@ if __name__ == "__main__":
     # SD params:
     RESOLUTION = 512  # since SD XL is trained on higher res images, recommended res is 768-1024 for SD XL. read: https://huggingface.co/docs/diffusers/v0.19.2/api/pipelines/stable_diffusion/stable_diffusion_xl. SD XL turbo is trained on 512x512
     GUIDANCE_SCALE = 7.5 # 5-9 is usually used. for SD XL turbo, 0 is used (hardcoded in the code)
-    NUM_INFERENCE_STEPS = 30  # 20-50 is usually used. for SD XL turbo, 1-4 steps are used
+    NUM_INFERENCE_STEPS = 40  # 20-50 is usually used. for SD XL turbo, 1-4 steps are used
     # SDEdit (img2img) params
-    SDEDIT_STRENGTH = 0.85  # range is 0-1. relevant only for SDEdit. for ALIA: 0.5. For RG(LECF): 0.15.
+    SDEDIT_STRENGTH = 0.85  # range is 0-1. relevant only if SDEdit is true. for ALIA: 0.5. For RG(LECF): 0.15.
 
     # ControlNet params:
     LOW_THRESHOLD_CANNY = 120  # relevant only for canny model. 120 is default
@@ -550,8 +548,6 @@ if __name__ == "__main__":
     SEMANTIC_FILTERING = 1
     MODEL_CONFIDENCE_BASED_FILTERING = 1
     ALIA_CONF_FILTERING = 0
-
-    MERGE_JSONS = 0
 
     ############################## code start ##############################
 
@@ -724,16 +720,3 @@ if __name__ == "__main__":
         init_log=False,
         alia_conf_filtering=ALIA_CONF_FILTERING,
     )
-
-    if MERGE_JSONS:
-        from all_utils.utils import merge_aug_jsons_with_amount_per_json
-        
-        merge_aug_jsons_with_amount_per_json(
-            dict_json_amount={
-                aug_json_path: 3,
-                "/mnt/raid/home/eyal_michaeli/datasets/FGVC-Aircraft/fgvc-aircraft-2013b/aug_data/controlnet/sd_v1.5/canny/gpt-meta_class_prompt_w_sub_class_artistic_prompts_p_0.5/v1-res_512-num_2-gs_7.5-num_inf_steps_30_controlnet_scale_0.75_low_120_high_200_seed_0/semantic_filtering-model_confidence_based_filtering_top_10_classes-aug.json": 2,
-            },
-            output_json_path=aug_json_path.replace(".json", "_merged_for_4x.json"),
-            print_func=logging.info,
-        )
-        

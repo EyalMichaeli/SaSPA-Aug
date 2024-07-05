@@ -9,8 +9,8 @@
 
 ## Table of Contents
 1. [Setup](#setup)
-    - [Datasets](#datasets)
     - [Environment](#environment)
+    - [Datasets](#datasets)
 2. [Running the Code](#running-the-code)
     - [Training Baseline Model](#training-baseline-model)
     - [Prompts Construction](#prompts-construction)
@@ -19,13 +19,35 @@
 3. [Adding New Datasets](#adding-new-datasets)
 4. [Citation](#citation)
 
+
 ## Setup
+
+#### Clone the repo:
+```bash
+git clone https://github.com/EyalMichaeli/SaSPA-Aug.git
+cd SaSPA-Aug
+```
+
+
+### Environment
+```bash
+conda env create -f environment.yml
+conda activate saspa
+```
+You might need to re-install [PyTorch](https://pytorch.org/get-started/locally/) according to your server.
+
+
+#### And install locally:
+```bash
+pip install -e .
+```
+
 
 ### Datasets
 
-- **Aircraft, Cars, and DTD**: Downloadable via torchvision.
+- **Aircraft, Cars, and DTD**: Downloaded automatically via torchvision.
 - **CUB**: Download from [Caltech-UCSD Birds-200-2011](https://www.vision.caltech.edu/datasets/cub_200_2011/).
-- **CompCars**: Available at [CompCars dataset page](https://mmlab.ie.cuhk.edu.hk/datasets/comp_cars/).
+- **CompCars**: Download from [CompCars dataset page](https://mmlab.ie.cuhk.edu.hk/datasets/comp_cars/).
 
 
 #### Dataset Splits
@@ -36,18 +58,6 @@ If the original dataset does not include a validation set, file names splits are
 After downloading, specify the dataset path in the `.py` file within `fgvc/datasets` and update the dataset class in `all_utils/dataset_utils.py`.
 
 
-### Environment
-```bash
-conda env create -f environment.yml
-```
-you might want to re-install [PyTorch](https://pytorch.org/get-started/locally/) according to your server.
-
-
-#### And install locally:
-```bash
-pip install -e .
-```
-
 #### Using Weights & Biases (wandb)
 In our experiments, we utilize [Weights & Biases (wandb)](https://wandb.ai/site) to streamline and monitor the training process. The training scripts are designed to automatically connect to a wandb account. If you do not have a wandb account or prefer not to use this feature, you can disable wandb logging by setting the `DONT_WANDB` variable in the training script.
 
@@ -55,7 +65,7 @@ In our experiments, we utilize [Weights & Biases (wandb)](https://wandb.ai/site)
 ## Running the Code
 
 ### Training Baseline Model
-For our filtering, we need a baseline model trained on the original dataset. We provide with pre-trained checkpoints for each dataset used in our paper in [Google Drive](https://drive.google.com/drive/folders/1Bios3Q4RsXcytsqd0e189C5yF9If06SD?usp=sharing), please download to the folder `all_utils/checkpoints`.
+For our filtering, we need a baseline model trained on the original dataset. We provide with pre-trained checkpoints for each dataset used in our paper in [Google Drive](https://drive.google.com/drive/folders/1Bios3Q4RsXcytsqd0e189C5yF9If06SD?usp=sharing), please download to the folder `all_utils/checkpoints` or any other folder and put the respective path in the dataset class in `all_utils/dataset_utils.py`.
 
 ### Prompts Construction
 To create the prompts using GPT-4, follow the instructions in the paper.  
@@ -63,12 +73,12 @@ The generated prompts should be in `prompts_engineering/gpt_prompts`, which curr
 
 ### Generation and Filtering
 The generation code is located at: `run_aug/run_aug.py`.  
-To use SaSPA, choose a dataset and ensure that `BASE_MODEL = "blip_diffusion"` and `CONTROLNET = "canny"`.  
+To use SaSPA, choose a dataset and ensure that `BASE_MODEL = "blip_diffusion"` and `CONTROLNET = "canny"`. If you don't want to use blip_diffusion (which is better for the Aircraft dataest), you can use other base models such as sd_v1.5. 
 The code will generate augmentations and then will automatically generate a JSON file with the filtered augmentations.  
 
 ### Training with Augmentations
 Once you have the JSON file, copy it to `trainings_scripts/consecutive_runs_aug.sh`, under the variable `aug_json`.   
-Make sure the correct dataset is specified in the `dataset` variable. The appropriate arguments for training, such as augmentation ratio and traditional augmentation, are automatically chosen in the script based on the dataset name.
+Make sure the correct dataset is specified in the `dataset` variable and fill in the reest of the arguments (GPU ID, run_name, etc.). The appropriate arguments for training, such as augmentation ratio and traditional augmentation used, are automatically chosen in the script based on the dataset name.
 
 That's it!
 You should see your training start at `logs/dataset_name/`.  

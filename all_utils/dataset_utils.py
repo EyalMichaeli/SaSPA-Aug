@@ -156,7 +156,7 @@ class BaseUtils:
     
 
 class PlanesUtils(BaseUtils):
-    def __init__(self, split="train", root_path='/mnt/raid/home/user_name/datasets/FGVC-Aircraft/fgvc-aircraft-2013b/data', print_func=print):
+    def __init__(self, split="train", root_path='/mnt/raid/home/eyal_michaeli/datasets/FGVC-Aircraft/fgvc-aircraft-2013b/data', print_func=print):
         super().__init__(split, root_path, print_func=print_func)
         self.name = "planes"
         self.meta_class = "airplane"
@@ -170,8 +170,8 @@ class PlanesUtils(BaseUtils):
         self.original_images_paths = [str(self.images_folder / f"{image_name}.jpg") for image_name in self.image_names]
         self.print_func(f"Loaded {len(self.original_images_paths)} images for planes")
         self.image_path_to_class_str_dict = self.get_image_stem_to_class_str_dict()
-        self.baseline_model_cp = "/mnt/raid/home/user_name/git/CAL/fgvc/logs/planes/2023_0917_0427_30_base/model_bestacc.pth"
-        
+        self.baseline_model_cp = "/mnt/raid/home/eyal_michaeli/git/CAL/fgvc/logs/planes/2023_0917_0427_30_base/model_bestacc.pth"
+
     def get_image_stem_to_class_str_dict(self):
         manufacturers_data = utils.load_data(self.manufacturers_file_path)
         variants_data = utils.load_data(self.variants_file_path)
@@ -201,7 +201,7 @@ class PlanesUtils(BaseUtils):
 
 
 class CarsUtils(BaseUtils):
-    def __init__(self, split="train", root_path='/mnt/raid/home/user_name/datasets/stanford_cars', print_func=print):
+    def __init__(self, split="train", root_path='/mnt/raid/home/eyal_michaeli/datasets/stanford_cars', print_func=print):
         super().__init__(split, root_path, print_func=print_func)
         self.name = "cars"
         self.meta_class = "car"
@@ -223,7 +223,7 @@ class CarsUtils(BaseUtils):
             self.original_images_paths = self.get_images_for_split_with_no_val(split, self.original_images_paths, self.name)
         self.print_func(f"Loaded {len(self.original_images_paths)} images for cars, split {split}")
         self.image_path_to_class_str_dict = self.get_image_stem_to_class_str_dict()
-        self.baseline_model_cp = "/mnt/raid/home/user_name/git/CAL/fgvc/logs/cars/2023_0916_1010_12_base/model_bestacc.pth"
+        self.baseline_model_cp = "/mnt/raid/home/eyal_michaeli/git/CAL/fgvc/logs/cars/2023_0916_1010_12_base/model_bestacc.pth"
 
     def get_image_stem_to_class_str_dict(self):
         submodel_data = {}
@@ -263,7 +263,7 @@ class CarsUtils(BaseUtils):
 
 
 class DTDUtils(BaseUtils):
-    def __init__(self, split="train", partition=1, root_path='/mnt/raid/home/user_name/datasets/DTD/dtdataset/dtd', print_func=print):
+    def __init__(self, split="train", partition=1, root_path='/mnt/raid/home/eyal_michaeli/datasets/DTD/dtdataset/dtd', print_func=print):
         """
         partition: 1-10
         """
@@ -279,7 +279,7 @@ class DTDUtils(BaseUtils):
         self.print_func(f"Loaded {len(self.original_images_paths)} images for DTD split {split} partition {partition}")
         self.print_func(f"Total images in DTD: {len(self.all_original_images_paths)}")
         self.image_path_to_class_str_dict = self.get_image_path_to_class_str_dict()
-        self.baseline_model_cp = "/mnt/raid/home/user_name/git/thesis_utils/fgvc/logs/dtd/2023_1120_2043_36_base_cutmix_and_classic/model_bestacc.pth"
+        self.baseline_model_cp = "/mnt/raid/home/eyal_michaeli/git/thesis_utils/fgvc/logs/dtd/2023_1120_2043_36_base_cutmix_and_classic/model_bestacc.pth"
 
     def get_classes(self):
         return os.listdir(self.images_folder)
@@ -305,7 +305,7 @@ class DTDUtils(BaseUtils):
 
 
 class CompCarsPartsUtils(BaseUtils):
-    def __init__(self, split="train", root_path='/mnt/raid/home/user_name/datasets/compcars', print_func=print):
+    def __init__(self, split="train", root_path='/mnt/raid/home/eyal_michaeli/datasets/compcars', print_func=print):
         super().__init__(split, root_path, print_func=print_func)
         self.name = "compcars-parts"
         self.meta_class = "car"
@@ -361,7 +361,7 @@ class CompCarsPartsUtils(BaseUtils):
         self.print_func(f"Loaded {len(self.original_images_paths)} images for {dataset_name} dataset split {split}")
         self.print_func(f"Total images in {dataset_name} dataset: {len(self.all_original_images_paths)}")
         self.image_path_to_class_str_dict = self.get_image_path_to_class_str_dict()
-        self.baseline_model_cp = "/mnt/raid/home/user_name/git/CAL/fgvc/logs/compcars-parts/2023_1218_0409_03_base-fixed_classes_401/model_bestacc.pth"
+        self.baseline_model_cp = "/mnt/raid/home/eyal_michaeli/git/CAL/fgvc/logs/compcars-parts/2023_1218_0409_03_base-fixed_classes_401/model_bestacc.pth"
 
     def get_classes(self):
         """returns all classes in the form of a string"""
@@ -372,7 +372,7 @@ class CompCarsPartsUtils(BaseUtils):
     
     def get_image_path_to_class_id_dict(self, split="train"):
         """taken from CAL code"""
-        split_csv_file = f"/mnt/raid/home/user_name/datasets/compcars/train_test_split/part/{split}.csv"
+        split_csv_file = f"/mnt/raid/home/eyal_michaeli/datasets/compcars/train_test_split/part/{split}.csv"
 
         self._labels = []
         self._image_files = []
@@ -406,7 +406,7 @@ class CompCarsPartsUtils(BaseUtils):
 
 
 class CUBUtils(BaseUtils):
-    def __init__(self, split="train", root_path="/mnt/raid/home/user_name/datasets/CUB/CUB_200_2011", print_func=print):
+    def __init__(self, split="train", root_path="/mnt/raid/home/eyal_michaeli/datasets/CUB/CUB_200_2011", print_func=print):
         """taken from CAL code"""
         super().__init__(split, root_path, print_func=print_func)
         self.name = "cub"
@@ -416,7 +416,7 @@ class CUBUtils(BaseUtils):
         self.original_images_paths = ds._image_files
         self.print_func(f"Loaded {len(self.original_images_paths)} images for CUB")
         self.image_path_to_class_str_dict = self.get_image_path_to_class_str_dict()
-        self.baseline_model_cp = "/mnt/raid/home/user_name/git/CAL/fgvc/logs/cub/2024_0107_1512_40_hparam_search/model_bestacc.pth"
+        self.baseline_model_cp = "/mnt/raid/home/eyal_michaeli/git/CAL/fgvc/logs/cub/2024_0107_1512_40_hparam_search/model_bestacc.pth"
 
     def get_image_path_to_class_str_dict(self):
         classes_txt = self.root_path / "classes.txt"
@@ -449,7 +449,7 @@ class CUBUtils(BaseUtils):
 
 
 class PlanesBiasedUtils(BaseUtils):
-    def __init__(self, split="train", root_path='/mnt/raid/home/user_name/datasets/FGVC-Aircraft/fgvc-aircraft-2013b/data', print_func=print):
+    def __init__(self, split="train", root_path='/mnt/raid/home/eyal_michaeli/datasets/FGVC-Aircraft/fgvc-aircraft-2013b/data', print_func=print):
         super().__init__(split, root_path, print_func=print_func)
         self.name = "planes"
         self.meta_class = "airplane"
@@ -476,7 +476,7 @@ class PlanesBiasedUtils(BaseUtils):
         self.original_images_paths = [str(self.images_folder / f"{image_name}.jpg") for image_name in self.image_names]
         self.print_func(f"Loaded {len(self.original_images_paths)} images for planes biased dataset {split}")
         self.image_path_to_class_str_dict = self.get_image_stem_to_class_str_dict()
-        self.baseline_model_cp = "/mnt/raid/home/user_name/git/CAL/fgvc/logs/planes/2023_0917_0427_30_base/model_bestacc.pth"
+        self.baseline_model_cp = "/mnt/raid/home/eyal_michaeli/git/CAL/fgvc/logs/planes/2023_0917_0427_30_base/model_bestacc.pth"
         
     def get_image_stem_to_class_str_dict(self):
         manufacturers_data = utils.load_data(self.manufacturers_file_path)

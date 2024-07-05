@@ -74,7 +74,7 @@ def get_caption_background_time_of_day_given_file_path_and_json(captions_dict: d
 
 if __name__ == "__main__":
     """
-    nohup python /mnt/raid/home/user_name/git/thesis_utils/prompts_engineering/blip_utils.py > /mnt/raid/home/user_name/git/thesis_utils/prompts_engineering/blip_utils.log 2>&1 &
+    nohup python /mnt/raid/home/eyal_michaeli/git/thesis_utils/prompts_engineering/blip_utils.py > /mnt/raid/home/eyal_michaeli/git/thesis_utils/prompts_engineering/blip_utils.log 2>&1 &
     """
     device = torch.device("cuda:1")
     output_path = Path(__file__).parent / "captions"
