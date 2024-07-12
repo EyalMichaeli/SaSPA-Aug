@@ -1,9 +1,7 @@
 """ Stanford Cars (Car) Dataset """
-import json
 import logging
 import os
 from pathlib import Path
-import random
 from typing import Callable, Optional
 import warnings
 from PIL import Image
@@ -12,7 +10,9 @@ from torchvision.datasets import StanfordCars
 
 from fgvc.datasets.aug_wrapper_dataset import AugWrapperDataset
 
-ROOT = "/mnt/raid/home/eyal_michaeli/datasets/"
+
+ROOT = Path("").parent.parent / "data/stanford_cars"
+
 class Cars(AugWrapperDataset, StanfordCars):
     def __init__(self, root: str = ROOT, split: str = "train", 
                  transform: Optional[Callable] = None, target_transform: Optional[Callable] = None, download: bool = True, 

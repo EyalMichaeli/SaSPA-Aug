@@ -16,9 +16,10 @@ def get_counts(labels):
     fracs   = 1 / torch.Tensor(counts)
     return fracs / torch.max(fracs)
 
+ROOT = Path("").parent.parent / 'data/FGVC-Aircraft'
 
 class PlanesBiased(AugWrapperDataset, FGVCAircraft):
-    def __init__(self, root='/mnt/raid/home/eyal_michaeli/datasets/FGVC-Aircraft', 
+    def __init__(self, root=ROOT, 
                  split='train', transform=None, target_transform=None, download=False, train_sample_ratio=1.0,
                  aug_json=None, aug_sample_ratio=None, limit_aug_per_image=None, few_shot=None, print_func=logging.info):
         # some code taken fromm ALIA: https://github.com/lisadunlap/ALIA/blob/6e2c00f1f3ecfe0a8784ee4bd71ead5fa3bc6ad4/datasets/planes.py

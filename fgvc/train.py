@@ -1,5 +1,6 @@
 import datetime
 import os
+import sys
 from pathlib import Path
 import traceback
 import numpy as np
@@ -21,6 +22,8 @@ torch.tensor([1.0]).cuda()  # this is to initialize cuda, so that the next cuda 
 # to ignore a pytorch 2 compile logging:
 # import torch._dynamo
 # torch._dynamo.config.suppress_errors = True
+
+sys.path.append(str(Path(__file__).parent.parent))
 
 from fgvc.models import WSDAN_CAL
 from fgvc.util import CenterLoss, AverageMeter, TopKAccuracyMetric, ModelCheckpoint, batch_augment, MeanClassAccuracyMetric, get_a_plot_of_num_samples_per_class_vs_class_accuracy
@@ -173,8 +176,11 @@ def main(args):
             wandb.config.update(args)
 
         if DEBUG:
-            import lovely_tensors as lt
-            lt.monkey_patch()
+            try:
+                import lovely_tensors as lt
+                lt.monkey_patch()
+            except Exception as e:
+                pass
 
         if args.few_shot in [None, False, 0]:
             args.few_shot = None
@@ -728,7 +734,7 @@ def get_args_for_debug():
     args.special_aug = "classic"
     args.logdir = f'logs/{args.dataset}/test_delete_me'
     args.train_sample_ratio = 1.0
-    args.aug_json = None # "/mnt/raid/home/eyal_michaeli/datasets/stanford_cars/aug_data/regular/sd_v1.5-SDEdit_strength_0.5/None/ALIA_prompt_w_sub_class/v1-complete_ALIA-res_512-num_2-gs_7.5-num_inf_steps_30_seed_0/semantic_filtering-alia_conf_filtering-aug.json"
+    args.aug_json = None # "/mnt/raid/home/user_name/datasets/stanford_cars/aug_data/regular/sd_v1.5-SDEdit_strength_0.5/None/ALIA_prompt_w_sub_class/v1-complete_ALIA-res_512-num_2-gs_7.5-num_inf_steps_30_seed_0/semantic_filtering-alia_conf_filtering-aug.json"
     args.aug_sample_ratio = 0.5
     args.few_shot = None
     return args

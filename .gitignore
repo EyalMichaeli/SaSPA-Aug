@@ -171,3 +171,5 @@ check_user_gpu.sh
 # any file that ends with .pth
 *.pth
 all_utils/checkpoints/.pth
+data/
+*/data/

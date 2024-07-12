@@ -13,7 +13,7 @@ from torchvision.datasets import DTD
 from fgvc.datasets.aug_wrapper_dataset import AugWrapperDataset
 
 
-ROOT = '/mnt/raid/home/eyal_michaeli/datasets/DTD'
+ROOT = Path("").parent.parent / 'data/DTD'
 
 class DTDataset(AugWrapperDataset, DTD):
     """

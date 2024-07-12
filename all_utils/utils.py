@@ -15,8 +15,12 @@ import pandas as pd
 import torch
 import torch.nn as nn
 import torchvision.transforms as T
-import lpips
 import clip.clip as clip
+
+try:
+    import lpips
+except ImportError:
+    pass
 
 from fgvc.datasets import *
 import all_utils.dataset_utils as dataset_utils
@@ -816,8 +820,8 @@ def calc_lpips_given_aug_json(dataset, aug_json, net, compute_on=3000, resize_to
 
 if __name__ == "__main__":
     """
-    CUDA_VISIBLE_DEVICES=1 python /mnt/raid/home/eyal_michaeli/git/thesis_utils/all_utils/utils.py
-    CUDA_VISIBLE_DEVICES=2 nohup python /mnt/raid/home/eyal_michaeli/git/thesis_utils/all_utils/utils.py > /mnt/raid/home/eyal_michaeli/git/thesis_utils/all_utils/utils2.log 2>&1 &
+    CUDA_VISIBLE_DEVICES=1 python /mnt/raid/home/user_name/git/thesis_utils/all_utils/utils.py
+    CUDA_VISIBLE_DEVICES=2 nohup python /mnt/raid/home/user_name/git/thesis_utils/all_utils/utils.py > /mnt/raid/home/user_name/git/thesis_utils/all_utils/utils2.log 2>&1 &
     """
     pass
     # Generate a json file with the augmented images paths

@@ -23,6 +23,7 @@ except ImportError:
 
 from lavis.models import load_model_and_preprocess as load_lavis_model_and_preprocess
 
+sys.path.append(str(Path(__file__).parent.parent))
 from prompts_engineering import blip_utils, ARTISTIC_PROMPTS, IMAGE_VARIATIONS_PROMPTS
 from all_utils import utils
 from all_utils import dataset_utils
@@ -32,17 +33,17 @@ import torch._dynamo
 torch._dynamo.config.suppress_errors = True
 
 
-sys.path.append("..")
-
-
 assert torch.cuda.is_available(), "CUDA is not available"
+
+
+torch.tensor([1.0]).cuda()  # this is to initialize cuda, so that the next cuda calls will not be slow. This can also prevent bugs
 
 
 NEGATIVE_PROMPT = "over-exposure, under-exposure, saturated, duplicate, out of frame, lowres, cropped, worst quality, low quality, jpeg artifacts, morbid, mutilated, out of frame, ugly, bad anatomy, bad proportions, deformed, blurry, duplicate"
 MAX_FILENAME_LENGTH = 40  # max length to save in the aug folder, peompt length is also limited to 100 chars (above)
 MAX_PROMPT_LENGTH = 150  # max length of prompt to use (above this will be truncated)
 DEVICE = "cuda:0"
-DEBUG = 0  # wont use pytorch 2.0 compile (it's slow) and will use 4 paths only
+DEBUG = 0  # wont use pytorch 2.0 compile (it's slow starting) and will use 4 paths only
 
 
 BASE_MODEL_DICT = {
@@ -521,7 +522,7 @@ if __name__ == "__main__":
     # prompts params:
     PROMPT_TYPE = "gpt-meta_class"  # out of "txt2sentence", "txt2sentence-per_class", "captions", "gpt-meta_class", "ALIA"
     PROMPT_WITH_SUB_CLASS = True  # the prompt will contain the sub class of the image (e.g. "a Boing 707-320 plane ...")
-    USE_ARTISTIC_PROMPTS = True  # if True, will use artistic prompts (e.g. "a painting of a ...") at the end of used prompts
+    USE_ARTISTIC_PROMPTS = True if BASE_MODEL == "sd_v1.5" else False  # feel free to change this. if True, will use artistic prompts (e.g. "a painting of a ...") at the end of used prompts
     ARTISTIC_PROMPTS_PROB = 0.5  # the probability to use artistic prompts
     USE_CAMERA_VARIATIONS_PROMPTS = False  # if True, will use camera variations prompts (e.g. "High-Speed, Lens Flare) at the end of used prompts. will not combine artistic prompts with this
     CAMERA_VAIRATIONS_PROB = 0.5  # the probability to use camera variations prompts
@@ -529,7 +530,7 @@ if __name__ == "__main__":
     # SD params:
     RESOLUTION = 512  # since SD XL is trained on higher res images, recommended res is 768-1024 for SD XL. read: https://huggingface.co/docs/diffusers/v0.19.2/api/pipelines/stable_diffusion/stable_diffusion_xl. SD XL turbo is trained on 512x512
     GUIDANCE_SCALE = 7.5 # 5-9 is usually used. for SD XL turbo, 0 is used (hardcoded in the code)
-    NUM_INFERENCE_STEPS = 40  # 20-50 is usually used. for SD XL turbo, 1-4 steps are used
+    NUM_INFERENCE_STEPS = 30  # 20-50 is usually used. for SD XL turbo, 1-4 steps are used
     # SDEdit (img2img) params
     SDEDIT_STRENGTH = 0.85  # range is 0-1. relevant only if SDEdit is true. for ALIA: 0.5. For RG(LECF): 0.15.
 
@@ -572,34 +573,31 @@ if __name__ == "__main__":
     assert NUM_PER_IMAGE > 0
 
     utils.set_seed(SEED)
+    ds_utils: dataset_utils.BaseUtils = dataset_utils.DS_UTILS_DICT[DATASET](print_func=logging.info)
+
     if DATASET == "planes":
-        blip_captions = "/mnt/raid/home/eyal_michaeli/git/thesis_utils/prompts_engineering/captions/planes_captions.json"
-        output_folder = f"/mnt/raid/home/eyal_michaeli/datasets/FGVC-Aircraft/fgvc-aircraft-2013b/aug_data"
+        blip_captions = "/mnt/raid/home/user_name/git/thesis_utils/prompts_engineering/captions/planes_captions.json"
         if PROMPT_TYPE == "txt2sentence-per_class":
-            prompts_file = "/mnt/raid/home/eyal_michaeli/git/thesis_utils/prompts_engineering/txt2sentences_prompts/LE_30_planes_all_classes_True.json"
+            prompts_file = "/mnt/raid/home/user_name/git/thesis_utils/prompts_engineering/txt2sentences_prompts/LE_30_planes_all_classes_True.json"
         elif PROMPT_TYPE == "txt2sentence":
-            prompts_file = "/mnt/raid/home/eyal_michaeli/git/thesis_utils/prompts_engineering/txt2sentences_prompts/LE_200_planes_all_classes_False.json"
+            prompts_file = "/mnt/raid/home/user_name/git/thesis_utils/prompts_engineering/txt2sentences_prompts/LE_200_planes_all_classes_False.json"
         elif PROMPT_TYPE == "gpt-meta_class":
-            prompts_file = "/mnt/raid/home/eyal_michaeli/git/thesis_utils/prompts_engineering/gpt_prompts/planes-100-gpt_v1.txt"
-            # prompts_file = "/mnt/raid/home/eyal_michaeli/git/thesis_utils/prompts_engineering/gpt_prompts/planes-200-gpt_v1.txt"
+            prompts_file = Path("").parent / "prompts_engineering/gpt_prompts" / f"{DATASET}-100-gpt_v1.txt"
 
 
     elif DATASET == "cars":
-        blip_captions = "/mnt/raid/home/eyal_michaeli/git/thesis_utils/prompts_engineering/captions/cars_captions.json"
-        output_folder = f"/mnt/raid/home/eyal_michaeli/datasets/stanford_cars/aug_data"
+        blip_captions = "/mnt/raid/home/user_name/git/thesis_utils/prompts_engineering/captions/cars_captions.json"
         if PROMPT_TYPE == "txt2sentence-per_class":
-            prompts_file = "/mnt/raid/home/eyal_michaeli/git/thesis_utils/prompts_engineering/txt2sentences_prompts/LE_30_cars_all_classes_True.json"
+            prompts_file = "/mnt/raid/home/user_name/git/thesis_utils/prompts_engineering/txt2sentences_prompts/LE_30_cars_all_classes_True.json"
         elif PROMPT_TYPE == "txt2sentence":
-            prompts_file = "/mnt/raid/home/eyal_michaeli/git/thesis_utils/prompts_engineering/txt2sentences_prompts/LE_200_cars_all_classes_False.json"
+            prompts_file = "/mnt/raid/home/user_name/git/thesis_utils/prompts_engineering/txt2sentences_prompts/LE_200_cars_all_classes_False.json"
         elif PROMPT_TYPE == "gpt-meta_class":
-            prompts_file = "/mnt/raid/home/eyal_michaeli/git/thesis_utils/prompts_engineering/gpt_prompts/cars-100-gpt_v1.txt"
-
+            prompts_file = Path("").parent / "prompts_engineering/gpt_prompts" / f"{DATASET}-100-gpt_v1.txt"
 
     elif DATASET == "dtd":
-        blip_captions = "/mnt/raid/home/eyal_michaeli/git/thesis_utils/prompts_engineering/captions/dtd_captions.json"
-        output_folder = f"/mnt/raid/home/eyal_michaeli/datasets/DTD/dtdataset/dtd/aug_data"
+        blip_captions = "/mnt/raid/home/user_name/git/thesis_utils/prompts_engineering/captions/dtd_captions.json"
         if PROMPT_TYPE == "txt2sentence-per_class":
-            prompts_file = "/mnt/raid/home/eyal_michaeli/git/thesis_utils/prompts_engineering/txt2sentences_prompts/LE_30_dtd_all_classes_True.json"
+            prompts_file = "/mnt/raid/home/user_name/git/thesis_utils/prompts_engineering/txt2sentences_prompts/LE_30_dtd_all_classes_True.json"
         elif PROMPT_TYPE == "txt2sentence":
             raise NotImplementedError
         elif PROMPT_TYPE == "gpt-meta_class":
@@ -607,52 +605,45 @@ if __name__ == "__main__":
 
 
     elif DATASET == "compcars":
-        blip_captions = "/mnt/raid/home/eyal_michaeli/git/thesis_utils/prompts_engineering/captions/cars2_captions.json"
-        output_folder = f"/mnt/raid/home/eyal_michaeli/datasets/compcars/aug_data"
+        blip_captions = "/mnt/raid/home/user_name/git/thesis_utils/prompts_engineering/captions/cars2_captions.json"
         if PROMPT_TYPE == "txt2sentence-per_class":
-            prompts_file = "/mnt/raid/home/eyal_michaeli/git/thesis_utils/prompts_engineering/txt2sentences_prompts/LE_30_compcars_all_classes_True.json"
+            prompts_file = "/mnt/raid/home/user_name/git/thesis_utils/prompts_engineering/txt2sentences_prompts/LE_30_compcars_all_classes_True.json"
         elif PROMPT_TYPE == "txt2sentence":
-            prompts_file = "/mnt/raid/home/eyal_michaeli/git/thesis_utils/prompts_engineering/txt2sentences_prompts/LE_200_compcars_all_classes_False.json"
+            prompts_file = "/mnt/raid/home/user_name/git/thesis_utils/prompts_engineering/txt2sentences_prompts/LE_200_compcars_all_classes_False.json"
 
 
     elif DATASET == "compcars-parts":
-        blip_captions = "/mnt/raid/home/eyal_michaeli/git/thesis_utils/prompts_engineering/captions/compcars-parts_captions.json"
-        output_folder = f"/mnt/raid/home/eyal_michaeli/datasets/compcars/aug_data-parts/controlnet"
+        blip_captions = "/mnt/raid/home/user_name/git/thesis_utils/prompts_engineering/captions/compcars-parts_captions.json"
         if PROMPT_TYPE == "txt2sentence-per_class":
             prompts_file = None  # output doesnt make much sense for this dataset
         elif PROMPT_TYPE == "txt2sentence":
-            prompts_file = "/mnt/raid/home/eyal_michaeli/git/thesis_utils/prompts_engineering/txt2sentences_prompts/LE_200_cars_all_classes_False.json"
+            prompts_file = "/mnt/raid/home/user_name/git/thesis_utils/prompts_engineering/txt2sentences_prompts/LE_200_cars_all_classes_False.json"
         elif PROMPT_TYPE == "gpt-meta_class":
-            prompts_file = "/mnt/raid/home/eyal_michaeli/git/thesis_utils/prompts_engineering/gpt_prompts/cars-100-gpt_v1.txt"
-
+            prompts_file = Path("").parent / "prompts_engineering/gpt_prompts" / f"cars-100-gpt_v1.txt"
 
     elif DATASET == "cub":
-        # blip_captions = "/mnt/raid/home/eyal_michaeli/git/thesis_utils/prompts_engineering/captions/cub_captions.json"
-        output_folder = f"/mnt/raid/home/eyal_michaeli/datasets/CUB/CUB_200_2011/aug_data"
+        # blip_captions = "/mnt/raid/home/user_name/git/thesis_utils/prompts_engineering/captions/cub_captions.json"
         if PROMPT_TYPE == "txt2sentence-per_class":
             prompts_file = None
         elif PROMPT_TYPE == "txt2sentence":
-            prompts_file = "/mnt/raid/home/eyal_michaeli/git/thesis_utils/prompts_engineering/txt2sentences_prompts/LE_200_cub_all_classes_False.json"
+            prompts_file = "/mnt/raid/home/user_name/git/thesis_utils/prompts_engineering/txt2sentences_prompts/LE_200_cub_all_classes_False.json"
         elif PROMPT_TYPE == "gpt-meta_class":
-            prompts_file = "/mnt/raid/home/eyal_michaeli/git/thesis_utils/prompts_engineering/gpt_prompts/cub-100-gpt_v1.txt"
-
+            prompts_file = Path("").parent / "prompts_engineering/gpt_prompts" / f"{DATASET}-100-gpt_v1.txt"
 
     elif DATASET == "planes_biased":
         blip_captions = None
-        output_folder = f"/mnt/raid/home/eyal_michaeli/datasets/FGVC-Aircraft/fgvc-aircraft-2013b/aug_data_biased"
         if PROMPT_TYPE == "txt2sentence-per_class":
-            prompts_file = "/mnt/raid/home/eyal_michaeli/git/thesis_utils/prompts_engineering/txt2sentences_prompts/LE_30_planes_all_classes_True.json"
+            prompts_file = "/mnt/raid/home/user_name/git/thesis_utils/prompts_engineering/txt2sentences_prompts/LE_30_planes_all_classes_True.json"
         elif PROMPT_TYPE == "txt2sentence":
-            prompts_file = "/mnt/raid/home/eyal_michaeli/git/thesis_utils/prompts_engineering/txt2sentences_prompts/LE_200_planes_all_classes_False.json"
+            prompts_file = "/mnt/raid/home/user_name/git/thesis_utils/prompts_engineering/txt2sentences_prompts/LE_200_planes_all_classes_False.json"
         elif PROMPT_TYPE == "gpt-meta_class":
-            prompts_file = "/mnt/raid/home/eyal_michaeli/git/thesis_utils/prompts_engineering/gpt_prompts/planes-100-gpt_v1.txt"
-            # prompts_file = "/mnt/raid/home/eyal_michaeli/git/thesis_utils/prompts_engineering/gpt_prompts/planes-200-gpt_v1.txt"
+            prompts_file = Path("").parent / "prompts_engineering/gpt_prompts" / f"planes-100-gpt_v1.txt"
 
     else:
         raise NotImplementedError
     
     if PROMPT_TYPE == "ALIA":
-        prompts_file = f"/mnt/raid/home/eyal_michaeli/git/thesis_utils/prompts_engineering/ALIA_prompts/gpt_output/{DATASET}_prompts.txt"
+        prompts_file = f"/mnt/raid/home/user_name/git/thesis_utils/prompts_engineering/ALIA_prompts/gpt_output/{DATASET}_prompts.txt"
 
     prompt_str = PROMPT_TYPE
     if PROMPT_WITH_SUB_CLASS:
@@ -678,13 +669,10 @@ if __name__ == "__main__":
             pass
 
 
-    last_folder_name += f"_seed_{SEED}/images"
-
-    output_folder = f"{output_folder}/{base_model_folder}/{CONTROLNET}/{prompt_str}/{last_folder_name}"
+    output_folder = f"{ds_utils.root_path}/aug_data/{base_model_folder}/{CONTROLNET}/{prompt_str}/_seed_{SEED}/images"
 
     utils.init_logging(str(Path(output_folder).parent))
 
-    ds_utils: dataset_utils.BaseUtils = dataset_utils.DS_UTILS_DICT[DATASET](print_func=logging.info)
     image_classes_dict = ds_utils.get_image_stem_to_class_str_dict() if DATASET in ["planes", "cars", "planes_biased"] else ds_utils.get_image_path_to_class_str_dict()
     logging.info(f"Output folder: {output_folder}")
 
@@ -707,6 +695,7 @@ if __name__ == "__main__":
     if SPECIFIC_FILE_STRs and DEBUG:
         logging.info("Exiting because SPECIFIC_FILE_STRs is not empty")
         exit(0)
+
     json_path = utils.create_json_of_image_name_to_augmented_images_paths(
         DATASET,
         augmented_image_folder_path=output_folder,

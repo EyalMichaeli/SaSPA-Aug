@@ -1,6 +1,7 @@
 import logging
 import copy
 import random
+from pathlib import Path
 
 from .aircraft_dataset import Planes
 from .cub_dataset import CUB
@@ -16,7 +17,7 @@ except ImportError:
     pass
 
 
-DATASETS_FILES_PATH = "/mnt/raid/home/eyal_michaeli/git/thesis_utils/fgvc/datasets_files"
+DATASETS_FILES_PATH = Path("").parent.parent / "datasets_files"
 
 
 def get_datasets(dataset, resize, train_sample_ratio=1.0, aug_json=None, aug_sample_ratio=None, limit_aug_per_image=None, special_aug=None, use_cutmix=False, few_shot=None, print_func=logging.info):

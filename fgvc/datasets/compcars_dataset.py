@@ -14,8 +14,10 @@ from torch.utils.data import Dataset
 from fgvc.datasets.aug_wrapper_dataset import AugWrapperDataset
 
 
+ROOT = Path("").parent.parent / "data/compcars/image"
+
 class CompCars(AugWrapperDataset, Dataset):
-    def __init__(self, root: str = "/mnt/raid/home/eyal_michaeli/datasets/compcars/image", split: str = "train", 
+    def __init__(self, root: str = ROOT, split: str = "train", 
                  transform: Optional[Callable] = None, target_transform: Optional[Callable] = None, train_sample_ratio: float = 1.0, 
                  aug_json: str = None, aug_sample_ratio: float = None, limit_aug_per_image: int = None, dataset_type="parts", 
                  print_func=logging.info, few_shot=None, create_val_split=False):
@@ -30,9 +32,9 @@ class CompCars(AugWrapperDataset, Dataset):
         self.root = root
         self.dataset_type = dataset_type
         if self.dataset_type == "parts":
-            split_csv_file = f"/mnt/raid/home/eyal_michaeli/datasets/compcars/train_test_split/part/{split_to_load}.csv"
+            split_csv_file = f"/mnt/raid/home/user_name/datasets/compcars/train_test_split/part/{split_to_load}.csv"
         else:
-            split_csv_file = f"/mnt/raid/home/eyal_michaeli/datasets/compcars/train_test_split/classification/{split_to_load}.csv"
+            split_csv_file = f"/mnt/raid/home/user_name/datasets/compcars/train_test_split/classification/{split_to_load}.csv"
 
         # load the csv file with paths, labels
         self._labels = []

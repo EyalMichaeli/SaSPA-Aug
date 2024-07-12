@@ -45,17 +45,13 @@ pip install -e .
 
 ### Datasets
 
-- **Aircraft, Cars, and DTD**: Downloaded automatically via torchvision.
-- **CUB**: Download from [Caltech-UCSD Birds-200-2011](https://www.vision.caltech.edu/datasets/cub_200_2011/).
-- **CompCars**: Download from [CompCars dataset page](https://mmlab.ie.cuhk.edu.hk/datasets/comp_cars/).
+- **Aircraft, Cars, and DTD**: Downloaded automatically via torchvision to the local folder `data/dataset_name`.
+- **CUB**: Download from [Caltech-UCSD Birds-200-2011](https://www.vision.caltech.edu/datasets/cub_200_2011/) to `data/CUB`.
+- **CompCars**: Download from [CompCars dataset page](https://mmlab.ie.cuhk.edu.hk/datasets/comp_cars/) to `data/compcars`.
 
 
 #### Dataset Splits
 If the original dataset does not include a validation set, file names splits are provided in `fgvc/datasets_files` and are loaded automatically.
-
-
-#### Configuration
-After downloading, specify the dataset path in the `.py` file within `fgvc/datasets` and update the dataset class in `all_utils/dataset_utils.py`.
 
 
 #### Using Weights & Biases (wandb)
@@ -73,7 +69,7 @@ The generated prompts should be in `prompts_engineering/gpt_prompts`, which curr
 
 ### Generation and Filtering
 The generation code is located at: `run_aug/run_aug.py`.  
-To use SaSPA, choose a dataset and ensure that `BASE_MODEL = "blip_diffusion"` and `CONTROLNET = "canny"`. If you don't want to use blip_diffusion (which is better for the Aircraft dataest), you can use other base models such as sd_v1.5. 
+Choose a dataset and ensure that `BASE_MODEL = "blip_diffusion"` and `CONTROLNET = "canny"`. If you don't want to use blip_diffusion, you can use other base models such as sd_v1.5. (Currently it's set for sd_v1.5 because it's better for the Aircraft dataset, for all other datasets, set `BASE_MODEL = "sd_v1.5"`)
 The code will generate augmentations and then will automatically generate a JSON file with the filtered augmentations.  
 
 ### Training with Augmentations

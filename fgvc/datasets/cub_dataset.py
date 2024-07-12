@@ -13,6 +13,8 @@ from typing import Callable, Optional
 from fgvc.datasets.aug_wrapper_dataset import AugWrapperDataset
 
 
+ROOT = Path("").parent.parent / "data/CUB/CUB_200_2011"
+
 class CUB(AugWrapperDataset, Dataset):
     """
     # Description:
@@ -20,7 +22,7 @@ class CUB(AugWrapperDataset, Dataset):
     https://paperswithcode.com/dataset/cub-200-2011
     """
 
-    def __init__(self, root: str = "/mnt/raid/home/eyal_michaeli/datasets/CUB/CUB_200_2011", split: str = "train", 
+    def __init__(self, root: str = ROOT, split: str = "train", 
                  transform: Optional[Callable] = None, target_transform: Optional[Callable] = None, download: bool = False, 
                  train_sample_ratio: float = 1.0, aug_json: str = None, aug_sample_ratio: float = None, 
                  limit_aug_per_image: int = None, print_func=logging.info, few_shot=None, create_val_split=False):

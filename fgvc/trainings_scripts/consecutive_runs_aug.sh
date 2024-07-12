@@ -12,7 +12,7 @@ cp fgvc/trainings_scripts/consecutive_runs_aug.sh fgvc/logs/scripts_ran/$timesta
 
 net="resnet50"
 gpu_id="0"
-aug_json="/mnt/raid/home/eyal_michaeli/datasets/FGVC-Aircraft/fgvc-aircraft-2013b/aug_data/controlnet/sd_v1.5/canny/gpt-meta_class_prompt_w_sub_class_artistic_prompts_p_0.5/v2-2x-res_512-num_3-gs_7.5-num_inf_steps_30_controlnet_scale_0.75_low_120_high_200_seed_1/semantic_filtering-model_confidence_based_filtering_top_10_classes-aug.json"
+aug_json="aug_json_path.json"
 run_name="saspa"
 # iterate over
 seeds=("1" "2" "3")
