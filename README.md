@@ -69,12 +69,12 @@ The generated prompts should be in `prompts_engineering/gpt_prompts`, which curr
 
 ### Generation and Filtering
 The generation code is located at: `run_aug/run_aug.py`.  
-Choose a dataset and ensure that `BASE_MODEL = "blip_diffusion"` and `CONTROLNET = "canny"`. If you don't want to use blip_diffusion, you can use other base models such as sd_v1.5. (Currently it's set for sd_v1.5 because it's better for the Aircraft dataset, for all other datasets, set `BASE_MODEL = "sd_v1.5"`)
+Choose a dataset and ensure that `BASE_MODEL = "blip_diffusion"` and `CONTROLNET = "canny"`. If you don't want to use blip_diffusion, you can use other base models such as sd_v1.5. (Currently it's set for sd_v1.5 because it's better for the Aircraft dataset, for all other datasets, set `BASE_MODEL = "blip_diffusion"`)
 The code will generate augmentations and then will automatically generate a JSON file with the filtered augmentations.  
 
 ### Training with Augmentations
 Once you have the JSON file, copy it to `trainings_scripts/consecutive_runs_aug.sh`, under the variable `aug_json`.   
-Make sure the correct dataset is specified in the `dataset` variable and fill in the reest of the arguments (GPU ID, run_name, etc.). The appropriate arguments for training, such as augmentation ratio and traditional augmentation used, are automatically chosen in the script based on the dataset name.
+Make sure the correct dataset is specified in the `dataset` variable and fill in the rest of the arguments (GPU ID, run_name, etc.). The appropriate arguments for training, such as augmentation ratio and traditional augmentation used, are automatically chosen in the script based on the dataset name.
 
 That's it!
 You should see your training start at `logs/dataset_name/`.  
