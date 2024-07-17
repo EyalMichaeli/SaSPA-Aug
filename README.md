@@ -61,7 +61,7 @@ In our experiments, we utilize [Weights & Biases (wandb)](https://wandb.ai/site)
 ## Running the Code
 
 ### Training Baseline Model
-For our filtering, we need a baseline model trained on the original dataset. We provide with pre-trained checkpoints for each dataset used in our paper in [Google Drive](https://drive.google.com/drive/folders/1Bios3Q4RsXcytsqd0e189C5yF9If06SD?usp=sharing), please download to the folder `all_utils/checkpoints` or any other folder and put the respective path in the dataset class in `all_utils/dataset_utils.py`.
+For our filtering, we need a baseline model trained on the original dataset. We provide with pre-trained checkpoints for each dataset used in our paper in [Google Drive](https://drive.google.com/drive/folders/1Bios3Q4RsXcytsqd0e189C5yF9If06SD?usp=sharing), please either download or train a baseline model, and move the checkpoint to the folder `all_utils/checkpoints/dataset_name`.
 
 ### Prompts Construction
 To create the prompts using GPT-4, follow the instructions in the paper.  
