@@ -5,14 +5,9 @@ timestamp=$(date +"%Y-%m-%d_%H-%M-%S")
 # Define the hyperparameter values
 
 dataset="planes"
-
-# create the dir if doesnt exist:
-mkdir -p logs/scripts_ran
-cp fgvc/trainings_scripts/consecutive_runs_aug.sh fgvc/logs/scripts_ran/$timestamp-$dataset-consecutive_runs_aug.sh
-
 net="resnet50"
 gpu_id="0"
-aug_json="aug_json_path.json"
+aug_json="aug_json_path"
 run_name="saspa"
 # iterate over
 seeds=("1" "2" "3")
@@ -34,7 +29,6 @@ elif [ "$dataset" == "cub" ]; then
 elif [ "$dataset" == "dtd" ]; then
     special_augs=("classic-cutmix")
     aug_sample_ratios=("0.4")
-
 elif [ "$dataset" == "planes_biased" ]; then
     special_augs=("classic")
     aug_sample_ratios=("0.4")
@@ -47,20 +41,11 @@ fi
 # aug_sample_ratios=("0.0")
 
 limit_aug_per_image_list=("2")
+run_name_to_use="$run_name-$net"
 
-
-###############################################################################################################################################################
-# Sleep
-amount_to_sleep="1s"
-echo "Sleeping for $amount_to_sleep"
-# print pid
-echo "PID: $$"
-sleep $amount_to_sleep;
-###############################################################################################################################################################
-
+############################################################################################################
 
 # add to run name the net
-run_name_to_use="$run_name-$net"
 echo "Running with aug_json: $aug_json and run_name: $run_name"
 
 # Run the training 
@@ -114,6 +99,9 @@ echo "Finished running all the trainings"
 
 # run with 
 """
+bash fgvc/trainings_scripts/consecutive_runs_aug.sh
+Or with nohup:
+chmod +x fgvc/trainings_scripts/consecutive_runs_aug.sh
 nohup fgvc/trainings_scripts/consecutive_runs_aug.sh > aug_script_output.log 2>&1 &
 """
 

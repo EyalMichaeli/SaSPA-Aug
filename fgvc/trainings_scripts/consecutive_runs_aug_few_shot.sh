@@ -5,10 +5,6 @@ timestamp=$(date +"%Y-%m-%d_%H-%M-%S")
 # Define the hyperparameter values
 
 dataset="dtd"
-# create the dir if doesnt exist:
-mkdir -p logs/scripts_ran
-cp fgvc/trainings_scripts/consecutive_runs_aug_few_shot.sh fgvc/logs/scripts_ran/$timestamp-$dataset-consecutive_runs_aug.sh
-
 net="resnet50"
 gpu_id="1"
 aug_json=""
@@ -46,19 +42,12 @@ aug_sample_ratios=("0.6")  # for few shot always use 0.6
 # aug_sample_ratios=("0.0")
 limit_aug_per_image_list=("2")
 
-
-###############################################################################################################################################################
-# Sleep
-amount_to_sleep="4s"
-echo "Sleeping for $amount_to_sleep"
-# print pid
-echo "PID: $$"
-sleep $amount_to_sleep;
-###############################################################################################################################################################
-
-
-# add to run name the net
 run_name_to_use="$run_name-few_shot-$net"
+
+
+
+############################################################################################################
+# add to run name the net
 echo "Running with aug_json: $aug_json and run_name: $run_name"
 
 # Run the training 
@@ -112,5 +101,8 @@ echo "Finished running all the trainings"
 
 # run with 
 """
+bash fgvc/trainings_scripts/consecutive_runs_aug_few_shot.sh
+Or with nohup:
+chmod +x trainings_scripts/consecutive_runs_aug_few_shot.sh
 nohup trainings_scripts/consecutive_runs_aug_few_shot.sh > aug_script_output_few_shot.log 2>&1 &
 """

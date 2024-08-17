@@ -513,7 +513,7 @@ if __name__ == "__main__":
 
     # dataset generation params:
     DATASET = "planes"  
-    BASE_MODEL = "sd_v1.5"  # out of "sd_v1.5", "sd_v2.1", "sd_xl", "sd_xl-turbo", "blip_diffusion"
+    BASE_MODEL = "sd_v1.5" if DATASET == "planes" else "blip_diffusion"  # out of "sd_v1.5", "sd_v2.1", "sd_xl", "sd_xl-turbo", "blip_diffusion"
     CONTROLNET = "canny"  # "canny"  # out of None, "canny", "hed"
     SDEDIT = 0  # if True, will do IMG2IMG edit. LECF is from scratch, ALIA is 0.5
     NUM_PER_IMAGE = 2 # number of augmentations to generate per image
@@ -573,31 +573,32 @@ if __name__ == "__main__":
     assert NUM_PER_IMAGE > 0
 
     utils.set_seed(SEED)
-    ds_utils: dataset_utils.BaseUtils = dataset_utils.DS_UTILS_DICT[DATASET](print_func=logging.info)
+    ds_utils: dataset_utils.BaseUtils = dataset_utils.DS_UTILS_DICT[DATASET]()
 
     if DATASET == "planes":
-        blip_captions = "/mnt/raid/home/user_name/git/thesis_utils/prompts_engineering/captions/planes_captions.json"
+        blip_captions = Path("").parent / "prompts_engineering/captions/planes_captions.json"
         if PROMPT_TYPE == "txt2sentence-per_class":
-            prompts_file = "/mnt/raid/home/user_name/git/thesis_utils/prompts_engineering/txt2sentences_prompts/LE_30_planes_all_classes_True.json"
+            prompts_file = Path("").parent / "prompts_engineering/txt2sentences_prompts/LE_30_planes_all_classes_True.json"
         elif PROMPT_TYPE == "txt2sentence":
-            prompts_file = "/mnt/raid/home/user_name/git/thesis_utils/prompts_engineering/txt2sentences_prompts/LE_200_planes_all_classes_False.json"
+            prompts_file = Path("").parent / "prompts_engineering/txt2sentences_prompts/LE_200_planes_all_classes_False.json"
         elif PROMPT_TYPE == "gpt-meta_class":
             prompts_file = Path("").parent / "prompts_engineering/gpt_prompts" / f"{DATASET}-100-gpt_v1.txt"
 
 
     elif DATASET == "cars":
-        blip_captions = "/mnt/raid/home/user_name/git/thesis_utils/prompts_engineering/captions/cars_captions.json"
+        blip_captions = Path("").parent / "prompts_engineering/captions/cars_captions.json"
         if PROMPT_TYPE == "txt2sentence-per_class":
-            prompts_file = "/mnt/raid/home/user_name/git/thesis_utils/prompts_engineering/txt2sentences_prompts/LE_30_cars_all_classes_True.json"
+            prompts_file = Path("").parent / "prompts_engineering/txt2sentences_prompts/LE_30_cars_all_classes_True.json"
         elif PROMPT_TYPE == "txt2sentence":
-            prompts_file = "/mnt/raid/home/user_name/git/thesis_utils/prompts_engineering/txt2sentences_prompts/LE_200_cars_all_classes_False.json"
+            prompts_file = Path("").parent / "prompts_engineering/txt2sentences_prompts/LE_200_cars_all_classes_False.json"
         elif PROMPT_TYPE == "gpt-meta_class":
             prompts_file = Path("").parent / "prompts_engineering/gpt_prompts" / f"{DATASET}-100-gpt_v1.txt"
 
+
     elif DATASET == "dtd":
-        blip_captions = "/mnt/raid/home/user_name/git/thesis_utils/prompts_engineering/captions/dtd_captions.json"
+        blip_captions = Path("").parent / "prompts_engineering/captions/dtd_captions.json"
         if PROMPT_TYPE == "txt2sentence-per_class":
-            prompts_file = "/mnt/raid/home/user_name/git/thesis_utils/prompts_engineering/txt2sentences_prompts/LE_30_dtd_all_classes_True.json"
+            prompts_file = Path("").parent / "prompts_engineering/txt2sentences_prompts/LE_30_dtd_all_classes_True.json"
         elif PROMPT_TYPE == "txt2sentence":
             raise NotImplementedError
         elif PROMPT_TYPE == "gpt-meta_class":
@@ -605,37 +606,39 @@ if __name__ == "__main__":
 
 
     elif DATASET == "compcars":
-        blip_captions = "/mnt/raid/home/user_name/git/thesis_utils/prompts_engineering/captions/cars2_captions.json"
+        blip_captions = Path("").parent / "prompts_engineering/captions/cars2_captions.json"
         if PROMPT_TYPE == "txt2sentence-per_class":
-            prompts_file = "/mnt/raid/home/user_name/git/thesis_utils/prompts_engineering/txt2sentences_prompts/LE_30_compcars_all_classes_True.json"
+            prompts_file = Path("").parent / "prompts_engineering/txt2sentences_prompts/LE_30_compcars_all_classes_True.json"
         elif PROMPT_TYPE == "txt2sentence":
-            prompts_file = "/mnt/raid/home/user_name/git/thesis_utils/prompts_engineering/txt2sentences_prompts/LE_200_compcars_all_classes_False.json"
+            prompts_file = Path("").parent / "prompts_engineering/txt2sentences_prompts/LE_200_compcars_all_classes_False.json"
 
 
     elif DATASET == "compcars-parts":
-        blip_captions = "/mnt/raid/home/user_name/git/thesis_utils/prompts_engineering/captions/compcars-parts_captions.json"
+        blip_captions = Path("").parent / "prompts_engineering/captions/compcars-parts_captions.json"
         if PROMPT_TYPE == "txt2sentence-per_class":
             prompts_file = None  # output doesnt make much sense for this dataset
         elif PROMPT_TYPE == "txt2sentence":
-            prompts_file = "/mnt/raid/home/user_name/git/thesis_utils/prompts_engineering/txt2sentences_prompts/LE_200_cars_all_classes_False.json"
+            prompts_file = Path("").parent / "prompts_engineering/txt2sentences_prompts/LE_200_cars_all_classes_False.json"
         elif PROMPT_TYPE == "gpt-meta_class":
             prompts_file = Path("").parent / "prompts_engineering/gpt_prompts" / f"cars-100-gpt_v1.txt"
 
+
     elif DATASET == "cub":
-        # blip_captions = "/mnt/raid/home/user_name/git/thesis_utils/prompts_engineering/captions/cub_captions.json"
+        # blip_captions = Path("").parent / "prompts_engineering/captions/cub_captions.json"
         if PROMPT_TYPE == "txt2sentence-per_class":
             prompts_file = None
         elif PROMPT_TYPE == "txt2sentence":
-            prompts_file = "/mnt/raid/home/user_name/git/thesis_utils/prompts_engineering/txt2sentences_prompts/LE_200_cub_all_classes_False.json"
+            prompts_file = Path("").parent / "prompts_engineering/txt2sentences_prompts/LE_200_cub_all_classes_False.json"
         elif PROMPT_TYPE == "gpt-meta_class":
             prompts_file = Path("").parent / "prompts_engineering/gpt_prompts" / f"{DATASET}-100-gpt_v1.txt"
+
 
     elif DATASET == "planes_biased":
         blip_captions = None
         if PROMPT_TYPE == "txt2sentence-per_class":
-            prompts_file = "/mnt/raid/home/user_name/git/thesis_utils/prompts_engineering/txt2sentences_prompts/LE_30_planes_all_classes_True.json"
+            prompts_file = Path("").parent / "prompts_engineering/txt2sentences_prompts/LE_30_planes_all_classes_True.json"
         elif PROMPT_TYPE == "txt2sentence":
-            prompts_file = "/mnt/raid/home/user_name/git/thesis_utils/prompts_engineering/txt2sentences_prompts/LE_200_planes_all_classes_False.json"
+            prompts_file = Path("").parent / "prompts_engineering/txt2sentences_prompts/LE_200_planes_all_classes_False.json"
         elif PROMPT_TYPE == "gpt-meta_class":
             prompts_file = Path("").parent / "prompts_engineering/gpt_prompts" / f"planes-100-gpt_v1.txt"
 
@@ -643,7 +646,7 @@ if __name__ == "__main__":
         raise NotImplementedError
     
     if PROMPT_TYPE == "ALIA":
-        prompts_file = f"/mnt/raid/home/user_name/git/thesis_utils/prompts_engineering/ALIA_prompts/gpt_output/{DATASET}_prompts.txt"
+        prompts_file = Path("").parent / "prompts_engineering/ALIA_prompts/gpt_output/{DATASET}_prompts.txt"
 
     prompt_str = PROMPT_TYPE
     if PROMPT_WITH_SUB_CLASS:
@@ -669,9 +672,11 @@ if __name__ == "__main__":
             pass
 
 
-    output_folder = f"{ds_utils.root_path}/aug_data/{base_model_folder}/{CONTROLNET}/{prompt_str}/_seed_{SEED}/images"
+    output_folder = f"{ds_utils.root_path}/aug_data/{base_model_folder}/{CONTROLNET}/{prompt_str}_seed_{SEED}/images"
 
-    utils.init_logging(str(Path(output_folder).parent))
+    logdir = utils.init_logging(str(Path(output_folder).parent))
+    logging.info(f"Log folder: {logdir}")
+    ds_utils: dataset_utils.BaseUtils = dataset_utils.DS_UTILS_DICT[DATASET](print_func=logging.info)
 
     image_classes_dict = ds_utils.get_image_stem_to_class_str_dict() if DATASET in ["planes", "cars", "planes_biased"] else ds_utils.get_image_path_to_class_str_dict()
     logging.info(f"Output folder: {output_folder}")

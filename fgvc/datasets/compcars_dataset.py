@@ -32,9 +32,9 @@ class CompCars(AugWrapperDataset, Dataset):
         self.root = root
         self.dataset_type = dataset_type
         if self.dataset_type == "parts":
-            split_csv_file = f"/mnt/raid/home/user_name/datasets/compcars/train_test_split/part/{split_to_load}.csv"
+            split_csv_file = ROOT.parent / f"train_test_split/part/{split_to_load}.csv"
         else:
-            split_csv_file = f"/mnt/raid/home/user_name/datasets/compcars/train_test_split/classification/{split_to_load}.csv"
+            split_csv_file = ROOT.parent / f"train_test_split/classification/{split_to_load}.csv"
 
         # load the csv file with paths, labels
         self._labels = []

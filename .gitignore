@@ -173,3 +173,5 @@ check_user_gpu.sh
 all_utils/checkpoints/.pth
 data/
 */data/
+wandb/
+logs/
