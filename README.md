@@ -9,15 +9,19 @@
 
 ## Table of Contents
 1. [Setup](#setup)
+    - [Clone the repo](#clone-the-repo)
     - [Environment](#environment)
-    - [Datasets](#datasets)
-2. [Running the Code](#running-the-code)
-    - [Training Baseline Model](#training-baseline-model)
-    - [Prompts Construction](#prompts-construction)
+2. [Quick Setup](#quick-setup)
+    - [Baseline Model](#baseline-model)
     - [Generation and Filtering](#generation-and-filtering)
     - [Training with Augmentations](#training-with-augmentations)
-3. [Adding New Datasets](#adding-new-datasets)
-4. [Citation](#citation)
+3. [Full Setup](#full-setup)
+    - [Datasets](#datasets)
+    - [Dataset Splits](#dataset-splits)
+    - [Using Weights & Biases (wandb)](#using-weights--biases-wandb)
+4. [Adding New Datasets](#adding-new-datasets)
+5. [Citation](#citation)
+
 
 
 ## Setup
