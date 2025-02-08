@@ -6,8 +6,8 @@ timestamp=$(date +"%Y-%m-%d_%H-%M-%S")
 
 dataset="planes"
 net="resnet50"
-gpu_id="0"
-aug_json="aug_json_path"
+gpu_id="1"
+aug_json="data/FGVC-Aircraft/fgvc-aircraft-2013b/data/aug_data/controlnet/sd_v1.5/canny/gpt-meta_class_prompt_w_sub_class_artistic_prompts_p_0.5_seed_1/semantic_filtering-model_confidence_based_filtering_top_10_classes-aug.json"
 run_name="saspa"
 # iterate over
 seeds=("1" "2" "3")
@@ -48,6 +48,9 @@ run_name_to_use="$run_name-$net"
 # add to run name the net
 echo "Running with aug_json: $aug_json and run_name: $run_name"
 
+# set the gpu environment variable
+export CUDA_VISIBLE_DEVICES=$gpu_id
+
 # Run the training 
 for train_sample_ratio in "${train_sample_ratios[@]}"
 do
@@ -70,7 +73,6 @@ do
                         run_name_to_use="$run_name-$net-train_$train_sample_ratio-aug_ratio_$aug_sample_ratio-$special_aug"
                         echo "Running with seed: $seed and train_sample_ratio: $train_sample_ratio and special_aug: $special_aug and aug_sample_ratio: $aug_sample_ratio"
                         python fgvc/train.py \
-                            --gpu_id $gpu_id \
                             --seed $seed \
                             --train_sample_ratio $train_sample_ratio \
                             --logdir logs/$dataset/$run_name_to_use \
@@ -98,10 +100,7 @@ done
 echo "Finished running all the trainings"
 
 # run with 
-"""
-bash fgvc/trainings_scripts/consecutive_runs_aug.sh
-Or with nohup:
-chmod +x fgvc/trainings_scripts/consecutive_runs_aug.sh
-nohup fgvc/trainings_scripts/consecutive_runs_aug.sh > aug_script_output.log 2>&1 &
-"""
-
+# bash fgvc/trainings_scripts/consecutive_runs_aug.sh
+# Or with nohup:
+# chmod +x fgvc/trainings_scripts/consecutive_runs_aug.sh
+# nohup fgvc/trainings_scripts/consecutive_runs_aug.sh > aug_script_output.log 2>&1 &

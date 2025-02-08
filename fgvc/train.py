@@ -1,3 +1,8 @@
+import warnings
+warnings.simplefilter(action='ignore', category=FutureWarning)
+# also for user warnings
+warnings.simplefilter(action='ignore', category=UserWarning)
+
 import datetime
 import os
 import sys
@@ -281,7 +286,7 @@ def main(args):
 
         if config.ckpt and os.path.isfile(config.ckpt):
             # Load ckpt and get state_dict
-            checkpoint = torch.load(config.ckpt)
+            checkpoint = torch.load(config.ckpt, weights_only=False)
 
             # Get epoch and some logs
             logs = checkpoint['logs']
@@ -753,25 +758,3 @@ if __name__ == '__main__':
         DONT_WANDB = True
 
     main(args)
-
-
-"""
-# check what user started a process in ubuntu terminal, given a pid: 
-ps -o user= -p 2326503
-
-# get parent command pid in ubuntu: 
-ps -o ppid= -p 2857696
-
-
-# find what was the command that started a pid: 
-ps -o cmd= -p 1765160
-
-# wait X hours and then run a command:
-sleep 5h; <command>
-
-# when did a command start etc:
-ps -p 1140673 -o pid,cmd,start,etime,user,pcpu,pmem
-
-nvidia-smi + user:
-source check_user_gpu.sh
-""" 

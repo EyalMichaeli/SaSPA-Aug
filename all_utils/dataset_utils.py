@@ -92,7 +92,7 @@ class BaseUtils:
         self.baseline_model_cp = self.baseline_model_cp[0]
 
         # Load ckpt and get state_dict
-        checkpoint = torch.load(self.baseline_model_cp)  # only "logs" and "state_dict" keys
+        checkpoint = torch.load(self.baseline_model_cp, weights_only=False)
         # Load weights
         state_dict = checkpoint['state_dict']
         try:  # can be either resnet50 or resnet101

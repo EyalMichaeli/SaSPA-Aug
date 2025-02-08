@@ -50,6 +50,9 @@ run_name_to_use="$run_name-few_shot-$net"
 # add to run name the net
 echo "Running with aug_json: $aug_json and run_name: $run_name"
 
+# set the gpu environment variable
+export CUDA_VISIBLE_DEVICES=$gpu_id
+
 # Run the training 
 for train_sample_ratio in "${train_sample_ratios[@]}"
 do
@@ -72,7 +75,6 @@ do
                             run_name_to_use="$run_name-$net-train_$train_sample_ratio-aug_ratio_$aug_sample_ratio-$special_aug"
                             echo "Running with seed: $seed and train_sample_ratio: $train_sample_ratio and special_aug: $special_aug and aug_sample_ratio: $aug_sample_ratio"
                             python fgvc/train.py \
-                                --gpu_id $gpu_id \
                                 --seed $seed \
                                 --train_sample_ratio $train_sample_ratio \
                                 --logdir logs/$dataset/$run_name_to_use \

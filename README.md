@@ -48,10 +48,10 @@ For a quick setup, we will run on the planes dataset. The dataset is downloaded 
 Download the `planes.pth` checkpoint from [Google Drive](https://drive.google.com/drive/folders/1Bios3Q4RsXcytsqd0e189C5yF9If06SD?usp=sharing) into `all_utils/checkpoints/planes`
 
 ### Generation and Filtering
-run `run_aug/run_aug.py`. This script generates the data and at the end filters the data. The augmentations will be saved to `data/planes/aug_data` together with a log file and a JSON file that contains the file paths and their augmentations.
+run `run_aug/run_aug.py`. This script generates the data and at the end filters the data. The augmentations will be saved to `/home/devel/temp/school/SaSPA-Aug/data/FGVC-Aircraft/fgvc-aircraft-2013b/data/aug_data/controlnet/sd_v1.5/canny/gpt-meta_class_prompt_w_sub_class_artistic_prompts_p_0.5_seed_1` together with a log file and after the generation is done, a JSON file that contains the original files paths and their respective augmentations.
 
 ### Training with Augmentations
-Once you have the JSON file, copy its path to `trainings_scripts/consecutive_runs_aug.sh`, under the variable `aug_json`. Then, run with 
+Once you have the JSON file, copy its path to `fgvc/trainings_scripts/consecutive_runs_aug.sh`, under the variable `aug_json`. Then, run with 
 ```bash
 bash fgvc/trainings_scripts/consecutive_runs_aug.sh
 ```
@@ -103,8 +103,8 @@ You should see your training start at `<repo_path>/logs/<dataset_name>/`.
 ## Adding New Datasets
 To incorporate new datasets into the project, follow these structured steps:
 - **Prompt Creation**: Begin by generating and adding new prompts to `prompts_engineering/gpt_prompts`.
-- **Dataset Class Development**: Craft a new dataset class within `all_utils/dataset_utils.py` to manage dataset-specific functionalities.
-- **Dataset Module Implementation**: Establish a new Python file in the `fgvc/datasets` folder.
+- **Dataset Class Development**: Add a new dataset class within `all_utils/dataset_utils.py` to manage dataset-specific functionalities.
+- **Dataset Module Implementation**: Add a new Python file in the `fgvc/datasets` folder.
 - **Dataset Config**: Establish a new Python file with Hyper-parameters in the `fgvc/configs` folder.
 - **Baseline Model Training**: Train a baseline model to ensure the new dataset is correctly integrated and functional. This model will also be used in the filtering process.
 - **Follow Standard Procedures**: Proceed with the regular augmentation and training workflows as documented in [Running the Code](#running-the-code).

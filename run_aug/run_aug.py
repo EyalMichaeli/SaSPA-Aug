@@ -1,3 +1,8 @@
+import warnings
+warnings.simplefilter(action='ignore', category=FutureWarning)
+# also for user warnings
+warnings.simplefilter(action='ignore', category=UserWarning)
+
 import logging
 import random
 import sys
@@ -42,7 +47,6 @@ torch.tensor([1.0]).cuda()  # this is to initialize cuda, so that the next cuda 
 NEGATIVE_PROMPT = "over-exposure, under-exposure, saturated, duplicate, out of frame, lowres, cropped, worst quality, low quality, jpeg artifacts, morbid, mutilated, out of frame, ugly, bad anatomy, bad proportions, deformed, blurry, duplicate"
 MAX_FILENAME_LENGTH = 40  # max length to save in the aug folder, peompt length is also limited to 100 chars (above)
 MAX_PROMPT_LENGTH = 150  # max length of prompt to use (above this will be truncated)
-DEVICE = "cuda:0"
 DEBUG = 0  # wont use pytorch 2.0 compile (it's slow starting) and will use 4 paths only
 
 
@@ -275,7 +279,7 @@ def pass_thorugh_pipe(base_model, pipe, prompt, orig_img, SDEdit, SDEdit_strengt
     return output.images[0]
 
 
-def main(base_model, controlnet, SDEdit, device="cuda:0"):
+def main(base_model, controlnet, SDEdit):
     try:
         logging.info(f"Starting {version} with seed {SEED}")
         logging.info(f"PID: {os.getpid()}")
@@ -316,7 +320,7 @@ def main(base_model, controlnet, SDEdit, device="cuda:0"):
         if BASE_MODEL == "blip_diffusion-edit":
             blip_edit_model = lavis_edit_model()
         else:
-            pipe = init_pipeline(base_model, controlnet, SDEdit, use_compile=True if not DEBUG else False).to(device, torch.float16)       
+            pipe = init_pipeline(base_model, controlnet, SDEdit, use_compile=True if not DEBUG else False).to(DEVICE, torch.float16)       
         generator = torch.manual_seed(SEED)
         logging.info("Model loaded")
 
@@ -509,6 +513,7 @@ if __name__ == "__main__":
     DEBUG = 0  # wont use pytorch 2.0 compile (it's slow) and will use 4 paths only
     SPECIFIC_FILE_STRs = None # ["0680474", "1376795", "0218850", "1538836", "1393334", "1017972", "0989702", "2057958", "0913940"]  # can be sub str/sub path. relevant only if DEBUG is True
     ############################## generation params ##############################
+    DEVICE = "cuda:0"
     version = "v1"  # version of the run, you can add smth to help you remember what you did
 
     # dataset generation params:

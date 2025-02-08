@@ -14,7 +14,7 @@ from fgvc.util import MeanClassAccuracyMetric, TopKAccuracyMetric, get_transform
 
 def load_model(model_path, num_classes):
     net = WSDAN_CAL(num_classes=num_classes, M=32, net="resnet50", pretrained=False)
-    checkpoint = torch.load(model_path)
+    checkpoint = torch.load(model_path, weights_only=False)
     state_dict = checkpoint['state_dict']
     if "_orig_mod" in list(state_dict.keys())[-1]:  # this means that torch.compile compiled the model in pytorch 2.x
         net = torch.compile(net)  # needed if trained with pyorch 2.x and used torch.compile
