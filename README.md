@@ -1,10 +1,14 @@
 # SaSPA: Advancing Fine-Grained Classification by Structure and Subject Preserving Augmentation
 
+### 🏆 Accepted to NeurIPS 2024!  
+[NeurIPS 2024 Poster](https://neurips.cc/virtual/2024/poster/95527)
+
 ![Teaser Image](docs/assets/teaser.png)
 
 
 [![Github](https://img.shields.io/badge/Github%20webpage-222222.svg?style=for-the-badge&logo=github)](https://eyalmichaeli.github.io/SaSPA-Aug/)
 [![ArXiv](https://img.shields.io/badge/ArXiv-B31B1B.svg?style=for-the-badge)](https://arxiv.org/abs/2406.14551)
+[![NeurIPS 2024](https://img.shields.io/badge/NeurIPS%202024-%237845CC.svg?style=for-the-badge&logo=NeurIPS&logoColor=white)](https://neurips.cc/virtual/2024/poster/95527)
 
 
 ## Table of Contents
