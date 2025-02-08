@@ -48,7 +48,7 @@ For a quick setup, we will run on the planes dataset. The dataset is downloaded 
 Download the `planes.pth` checkpoint from [Google Drive](https://drive.google.com/drive/folders/1Bios3Q4RsXcytsqd0e189C5yF9If06SD?usp=sharing) into `all_utils/checkpoints/planes`
 
 ### Generation and Filtering
-run `run_aug/run_aug.py`. This script generates the data and at the end filters the data. The augmentations will be saved to `/home/devel/temp/school/SaSPA-Aug/data/FGVC-Aircraft/fgvc-aircraft-2013b/data/aug_data/controlnet/sd_v1.5/canny/gpt-meta_class_prompt_w_sub_class_artistic_prompts_p_0.5_seed_1` together with a log file and after the generation is done, a JSON file that contains the original files paths and their respective augmentations.
+run `run_aug/run_aug.py`. This script generates the data and at the end filters the data. The augmentations will be saved to `data/FGVC-Aircraft/fgvc-aircraft-2013b/data/aug_data/controlnet/sd_v1.5/canny/gpt-meta_class_prompt_w_sub_class_artistic_prompts_p_0.5_seed_1` together with a log file and after the generation is done, a JSON file that contains the original files paths and their respective augmentations.
 
 ### Training with Augmentations
 Once you have the JSON file, copy its path to `fgvc/trainings_scripts/consecutive_runs_aug.sh`, under the variable `aug_json`. Then, run with 
