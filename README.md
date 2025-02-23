@@ -118,13 +118,13 @@ To incorporate new datasets into the project, follow these structured steps:
 ## Citation
 If you find our work useful, we welcome citations:
 ```markdown
-@misc{michaeli2024advancing,
-      title={Advancing Fine-Grained Classification by Structure and Subject Preserving Augmentation}, 
-      author={Eyal Michaeli and Ohad Fried},
-      year={2024},
-      eprint={2406.14551},
-      archivePrefix={arXiv},
-      primaryClass={cs.CV}
+@inproceedings{
+    michaeli2024advancing,
+    title={Advancing Fine-Grained Classification by Structure and Subject Preserving Augmentation},
+    author={Eyal Michaeli and Ohad Fried},
+    booktitle={The Thirty-eighth Annual Conference on Neural Information Processing Systems},
+    year={2024},
+    url={https://openreview.net/forum?id=MNg331t8Tj}
 }
 ```
 
