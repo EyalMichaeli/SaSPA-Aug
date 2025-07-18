@@ -107,9 +107,9 @@ You should see your training start at `<repo_path>/logs/<dataset_name>/`.
 ## Adding New Datasets
 To incorporate new datasets into the project, follow these structured steps:
 - **Prompt Creation**: Begin by generating and adding new prompts to `prompts_engineering/gpt_prompts`.
-- **Dataset Class Development**: Add a new dataset class within `all_utils/dataset_utils.py` to manage dataset-specific functionalities.
+- Add a new dataset class within `all_utils/dataset_utils.py` to manage dataset-specific functionalities.
 - **Dataset Module Implementation**: Add a new Python file in the `fgvc/datasets` folder.
-- **Dataset Config**: Add a new Python file with Hyper-parameters in the `fgvc/configs` folder.
+- **Dataset Config**: Add a new Python file with training Hyper-parameters in the `fgvc/configs` folder.
 - **Baseline Model Training**: Train a baseline model to ensure the new dataset is correctly integrated and functional. This model will also be used in the filtering process.
 - **Follow Standard Procedures**: Proceed with the regular augmentation and training workflows as documented in [Running the Code](#running-the-code).
 
