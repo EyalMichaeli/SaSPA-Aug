@@ -6,7 +6,7 @@ timestamp=$(date +"%Y-%m-%d_%H-%M-%S")
 
 dataset="dtd"
 net="resnet50"
-gpu_id="1"
+gpu_id="0"
 aug_json=""
 run_name=""
 # iterate over
