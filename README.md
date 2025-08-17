@@ -69,7 +69,7 @@ You should see your training start at `<repo_path>/logs/dataset_name/`.
 ### Datasets
 
 - **Aircraft, Cars, and DTD**: Downloaded automatically via torchvision to the local folder `data/<dataset_name>`.
-- **CUB**: Download from [Caltech-UCSD Birds-200-2011](https://www.vision.caltech.edu/datasets/cub_200_2011/) to `data/CUB`.
+- **CUB**: Download from [Caltech-UCSD Birds-200-2011](https://www.vision.caltech.edu/datasets/cub_200_2011/) to `data/CUB`. Ensure the folder structure is as follows: <repo_path>/CUB/CUB_200_2011/... It includes folders such as 'images' and 'parts'.
 - **CompCars**: Download from [CompCars dataset page](https://mmlab.ie.cuhk.edu.hk/datasets/comp_cars/) to `data/compcars`. Ensure the folder structure is as follows: <repo_path>/data/compcars/... It includes folders such as 'image', 'label', 'train_test_split', etc. We use only the `CompCars-parts` partition.
 
 #### Dataset Splits
