@@ -73,7 +73,8 @@ class CUB(AugWrapperDataset, Dataset):
             new_image_files = []
             new_labels = []
             for image_file, label in zip(self._image_files, self._labels):
-                if (split == "val" and image_file in val_image_files) or (split == "train" and image_file not in val_image_files):
+                relevant_image_file = str(Path(*Path(image_file).parts[-2:]))
+                if (split == "val" and relevant_image_file in val_image_files) or (split == "train" and relevant_image_file not in val_image_files):
                     new_image_files.append(image_file)
                     new_labels.append(label)
             self._image_files = new_image_files
