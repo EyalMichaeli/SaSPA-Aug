@@ -70,13 +70,13 @@ You should see your training start at `<repo_path>/logs/dataset_name/`.
 
 - **Aircraft, Cars, and DTD**: Downloaded automatically via torchvision to the local folder `data/<dataset_name>`.
 - **CUB**: Download from [Caltech-UCSD Birds-200-2011](https://www.vision.caltech.edu/datasets/cub_200_2011/) to `data/CUB`.
-- **CompCars**: Download from [CompCars dataset page](https://mmlab.ie.cuhk.edu.hk/datasets/comp_cars/) to `data/compcars`. We use only the `CompCars-parts` partition.
+- **CompCars**: Download from [CompCars dataset page](https://mmlab.ie.cuhk.edu.hk/datasets/comp_cars/) to `data/compcars`. Ensure the folder structure is as follows: <repo_path>/data/compcars/... It includes folders such as 'image', 'label', 'train_test_split', etc. We use only the `CompCars-parts` partition.
 
 #### Dataset Splits
 If the original dataset does not include a validation set, file names splits are provided in `fgvc/datasets_files` and are loaded automatically.
 
 #### Using Weights & Biases (wandb)
-In our experiments, we utilize [Weights & Biases (wandb)](https://wandb.ai/site) for training monitoring. The traning script auto-connects to wandb. To disable this, set the DONT_WANDB variable in train.py to True.
+In our experiments, we utilize [Weights & Biases (wandb)](https://wandb.ai/site) for training monitoring. The training script auto-connects to wandb. To disable this, set the DONT_WANDB variable in train.py to True.
 
 ## Running the Code
 
