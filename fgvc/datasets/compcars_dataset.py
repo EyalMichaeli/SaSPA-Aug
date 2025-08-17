@@ -32,7 +32,7 @@ class CompCars(AugWrapperDataset, Dataset):
         self.root = root
         self.dataset_type = dataset_type
         if self.dataset_type == "parts":
-            split_csv_file = ROOT.parent / f"train_test_split/part/{split_to_load}.csv"
+            split_csv_file = Path("").parent.parent / "fgvc/datasets_files/compcars-parts" / f"{split_to_load}.csv"
         else:
             split_csv_file = ROOT.parent / f"train_test_split/classification/{split_to_load}.csv"
 
@@ -71,7 +71,8 @@ class CompCars(AugWrapperDataset, Dataset):
             new_image_files = []
             new_labels = []
             for image_file, label in zip(self._image_files, self._labels):
-                if (split == "val" and image_file in val_image_files) or (split == "train" and image_file not in val_image_files):
+                relevant_image_file = str(Path(*Path(image_file).parts[-6:]))
+                if (split == "val" and relevant_image_file in val_image_files) or (split == "train" and relevant_image_file not in val_image_files):
                     new_image_files.append(image_file)
                     new_labels.append(label)
             self._image_files = new_image_files
