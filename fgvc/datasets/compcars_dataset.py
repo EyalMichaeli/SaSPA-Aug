@@ -14,7 +14,7 @@ from torch.utils.data import Dataset
 from fgvc.datasets.aug_wrapper_dataset import AugWrapperDataset
 
 
-ROOT = Path("").parent.parent / "data/compcars/image"
+ROOT = Path("").parent.parent / "data/compcars/part"
 
 class CompCars(AugWrapperDataset, Dataset):
     def __init__(self, root: str = ROOT, split: str = "train", 
@@ -34,7 +34,7 @@ class CompCars(AugWrapperDataset, Dataset):
         if self.dataset_type == "parts":
             split_csv_file = Path("").parent.parent / "fgvc/datasets_files/compcars-parts" / f"{split_to_load}.csv"
         else:
-            split_csv_file = ROOT.parent / f"train_test_split/classification/{split_to_load}.csv"
+            raise NotImplementedError(f"Dataset type {self.dataset_type} is not implemented. Supported types: parts.")
 
         # load the csv file with paths, labels
         self._labels = []
@@ -71,7 +71,7 @@ class CompCars(AugWrapperDataset, Dataset):
             new_image_files = []
             new_labels = []
             for image_file, label in zip(self._image_files, self._labels):
-                relevant_image_file = str(Path(*Path(image_file).parts[-6:]))
+                relevant_image_file = str(Path(*Path(image_file).parts[-5:]))
                 if (split == "val" and relevant_image_file in val_image_files) or (split == "train" and relevant_image_file not in val_image_files):
                     new_image_files.append(image_file)
                     new_labels.append(label)
