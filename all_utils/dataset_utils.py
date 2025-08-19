@@ -85,7 +85,8 @@ class BaseUtils:
         ]) # taken from CAL code. 
 
     def load_baseline_model(self, resize=(224, 224)):
-        cp_folder = Path(__file__).parent / "checkpoints" / f"{self.name}"
+        name = "compcars-parts" if "compcars" in self.name else self.name
+        cp_folder = Path(__file__).parent / "checkpoints" / f"{name}"
         # any file that ends with .pth
         self.baseline_model_cp = list(cp_folder.glob("*.pth"))
         assert len(self.baseline_model_cp) == 1, f"Found {len(self.baseline_model_cp)} checkpoints in {cp_folder}. Expected 1"
@@ -358,12 +359,16 @@ class CompCarsPartsUtils(BaseUtils):
 
         # get paths for split
         dataset_type_folder = "part"
-        split_csv_file = self.root_path / f"train_test_split/{dataset_type_folder}/{split_to_use}.csv"
-        all_files_csv_file = self.root_path / f"train_test_split/{dataset_type_folder}/train_and_test.csv"
+        split_csv_file = Path(__file__).parent.parent / "fgvc/datasets_files/compcars-parts" / f"{split_to_use}.csv"
+        all_files_csv_file = Path(__file__).parent.parent / "fgvc/datasets_files/compcars-parts" / "train_and_test.csv"
 
         # it will have path,label cols
         self.original_images_paths = pd.read_csv(split_csv_file, header=None)[0].values.tolist()
+        # make sure all start with data/compcars/part/
+        self.original_images_paths = [str(Path("data/compcars/part") / image_path) for image_path in self.original_images_paths]
         self.all_original_images_paths = pd.read_csv(all_files_csv_file, header=None)[0].values.tolist()
+        # make sure all start with data/compcars/part/
+        self.all_original_images_paths = [str(Path("data/compcars/part") / image_path) for image_path in self.all_original_images_paths]
 
         if split in ["train", "val"]:
             self.original_images_paths = self.get_images_for_split_with_no_val(split, self.original_images_paths, "compcars_parts")
@@ -392,14 +397,14 @@ class CompCarsPartsUtils(BaseUtils):
     
     def get_image_path_to_class_id_dict(self, split="train"):
         """taken from CAL code"""
-        split_csv_file = f"data/compcars/train_test_split/part/{split}.csv"
+        split_csv_file = Path(__file__).parent.parent / "fgvc/datasets_files/compcars-parts" / f"{split}.csv"
 
         self._labels = []
         self._image_files = []
         with open(split_csv_file, 'r') as f:
             for line in f:
                 path, label = line.strip().split(',')
-                self._image_files.append(str(self.root_path / path))
+                self._image_files.append(str(Path("data/compcars/part") / path))
                 self._labels.append(label)
 
         all_unique_labels_sorted = sorted(list(set(self._labels)))
