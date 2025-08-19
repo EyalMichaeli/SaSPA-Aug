@@ -601,6 +601,10 @@ if __name__ == "__main__":
 
 
     elif DATASET == "dtd":
+        # print
+        if PROMPT_TYPE != "captions": # DTD dataset is not supported for txt2sentence or gpt-meta_class prompts. explanation in the paper, section appendix D.1
+            print("WARNING: DTD dataset is not supported for txt2sentence or gpt-meta_class prompts. Using captions prompts instead.")
+        PROMPT_TYPE = "captions" 
         blip_captions = Path("").parent / "prompts_engineering/captions/dtd_captions.json"
         if PROMPT_TYPE == "txt2sentence-per_class":
             prompts_file = Path("").parent / "prompts_engineering/txt2sentences_prompts/LE_30_dtd_all_classes_True.json"
