@@ -164,7 +164,7 @@ class BaseUtils:
     def download_torchvision_dataset_if_needed(self, root_path):
         if Path(root_path).exists():
             return
-        logging.warning(f"Dataset {self.name} is not found in {root_path}. Trying to download it from torchvision.datasets...")
+        print(f"Dataset {self.name} is not found in {root_path}. Trying to download it from torchvision.datasets...")
         if self.name in ["planes", "planes_biased"]:
             dataset = Planes(root=root_path, split=self.split, download=True)
         elif self.name == "cars":
