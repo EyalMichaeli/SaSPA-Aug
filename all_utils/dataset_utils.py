@@ -85,7 +85,7 @@ class BaseUtils:
         ]) # taken from CAL code. 
 
     def load_baseline_model(self, resize=(224, 224)):
-        name = "compcars-parts" if "compcars" in self.name else self.name
+        name = "compcars" if "compcars" in self.name else self.name
         cp_folder = Path(__file__).parent / "checkpoints" / f"{name}"
         # any file that ends with .pth
         self.baseline_model_cp = list(cp_folder.glob("*.pth"))
