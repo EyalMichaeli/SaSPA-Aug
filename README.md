@@ -68,9 +68,32 @@ You should see your training start at `<repo_path>/logs/dataset_name/`.
 
 ### Datasets
 
-- **Aircraft, Cars, and DTD**: Downloaded automatically via torchvision to the local folder `data/<dataset_name>`.
+- **Aircraft, Cars, and DTD**: Downloaded automatically via torchvision to the local folder `data/<dataset_name>`..
 - **CUB**: Download from [Caltech-UCSD Birds-200-2011](https://www.vision.caltech.edu/datasets/cub_200_2011/) to `data/CUB`. Ensure the folder structure is as follows: <repo_path>/CUB/CUB_200_2011/... It includes folders such as 'images' and 'parts'.
-- **CompCars**: Download from [CompCars dataset page](https://mmlab.ie.cuhk.edu.hk/datasets/comp_cars/) to `data/compcars`. Ensure the folder structure is as follows: <repo_path>/data/compcars/... It includes folders such as 'image', 'label' and 'train_test_split'. 
+- **CompCars**: Download from [CompCars dataset page](https://mmlab.ie.cuhk.edu.hk/datasets/comp_cars/) to `data/compcars`. Ensure the folder structure is as follows: <repo_path>/data/compcars/... It includes folders such as 'image', 'label' and 'train_test_split'.
+- **Stanford Cars**: TorchVision no longer supports automatic download ([details](https://github.com/pytorch/vision/issues/7545#issuecomment-1756774293)).  
+  Download the dataset manually via [Kaggle](https://www.kaggle.com/code/subhangaupadhaya/pytorch-stanfordcars-classification/input?select=cars_test_annos_withlabels+%281%29.mat)  
+  or with the Kaggle API:
+
+      import kaggle
+      # Configure your Kaggle API key first: https://www.kaggle.com/docs/api
+      kaggle.api.dataset_download_files(
+          'rickyyyyyyy/torchvision-stanford-cars',
+          path='data/stanford_cars',
+          unzip=True
+      )
+
+  Then download **cars_test_annos_withlabels.mat** from  
+  [here](https://www.kaggle.com/datasets/abdelrahmant11/standford-cars-dataset-meta?resource=download&select=cars_test_annos_withlabels+%281%29.mat)  
+  and place it in `data/stanford_cars/stanford_cars/`.
+
+  Expected layout:
+
+      data/stanford_cars/stanford_cars/
+      ├── cars_train/
+      ├── cars_test/
+      ├── devkit/
+      └── cars_test_annos_withlabels.mat
 
 #### Dataset Splits
 If the original dataset does not include a validation set, file names splits are provided in `fgvc/datasets_files` and are loaded automatically.
