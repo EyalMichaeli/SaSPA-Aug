@@ -226,7 +226,6 @@ class CarsUtils(BaseUtils):
     def __init__(self, split="train", root_path='data/stanford_cars/stanford_cars', print_func=print):
         super().__init__(split, root_path, print_func=print_func)
         self.name = "cars"
-        self.download_torchvision_dataset_if_needed('data/stanford_cars')
         self.meta_class = "car"
         assert split in ["train", "val", "test"]
         # Convert the root_path to a Path object
