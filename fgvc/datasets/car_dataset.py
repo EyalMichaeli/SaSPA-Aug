@@ -15,11 +15,11 @@ ROOT = Path("").parent.parent / "data/stanford_cars"
 
 class Cars(AugWrapperDataset, StanfordCars):
     def __init__(self, root: str = ROOT, split: str = "train", 
-                 transform: Optional[Callable] = None, target_transform: Optional[Callable] = None, download: bool = True, 
+                 transform: Optional[Callable] = None, target_transform: Optional[Callable] = None, download: bool = False, 
                  train_sample_ratio: float = 1.0, aug_json: str = None, aug_sample_ratio: float = None, 
                  limit_aug_per_image: int = None, print_func=logging.info, few_shot=None, create_val_split=False):
         split_to_load = 'train' if split == 'val' else split  
-        StanfordCars.__init__(self, root=root, split=split_to_load, transform=transform, target_transform=target_transform, download=download)
+        StanfordCars.__init__(self, root=root, split=split_to_load, transform=transform, target_transform=target_transform, download=False)
         # First, get the needed vars: self._image_files, self._labels, self.num_classes, self.dataset_name
         
         self._image_files = [sapmle[0] for sapmle in self._samples]
@@ -39,7 +39,7 @@ class Cars(AugWrapperDataset, StanfordCars):
             new_image_files = []
             new_labels = []
             for image_file, label in zip(self._image_files, self._labels):
-                if (split == "val" and image_file in val_image_files) or (split == "train" and image_file not in val_image_files):
+                if (split == "val" and Path(image_file).name in val_image_files) or (split == "train" and Path(image_file).name not in val_image_files):
                     new_image_files.append(image_file)
                     new_labels.append(label)
             self._image_files = new_image_files
