@@ -561,10 +561,11 @@ if __name__ == "__main__":
         NUM_INFERENCE_STEPS = 50
         print(f"Using NUM_INFERENCE_STEPS = {NUM_INFERENCE_STEPS}")
 
-    if dataset.lower() == "cub":
+    if DATASET.lower() == "cub":
         BASE_MODEL = "sd_xl-turbo"
         
     if BASE_MODEL == "sd_xl-turbo":
+        print("Using sd_xl-turbo, setting some params accordingly")
         GUIDANCE_SCALE = 0
         NUM_INFERENCE_STEPS = 2
         NEGATIVE_PROMPT = None
