@@ -246,7 +246,6 @@ class CarsUtils(BaseUtils):
         self.print_func(f"Loaded {len(self.original_images_paths)} images for cars, split {split}")
         self.image_path_to_class_str_dict = self.get_image_stem_to_class_str_dict()
 
-    
     def get_images_for_split_with_no_val(self, split, original_images_paths, dataset_name):
         dataset_name = dataset_name.lower()
         assert dataset_name in ["cars", "compcars_parts", "cub"]
@@ -262,7 +261,6 @@ class CarsUtils(BaseUtils):
             if (split == "val" and Path(image_file).name in val_image_files) or (split == "train" and Path(image_file).name not in val_image_files):
                 new_image_files.append(image_file)
         return new_image_files
-
     
     def get_image_stem_to_class_str_dict(self):
         submodel_data = {}
