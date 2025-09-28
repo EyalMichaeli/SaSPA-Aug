@@ -16,8 +16,7 @@ import torch
 import torch.nn as nn
 import torchvision.transforms as T
 import clip.clip as clip
-import sys
-sys.path.append("/home/devel/temp/school/SaSPA-Aug/repos/repos/SaSPA-Aug")
+
 try:
     import lpips
 except ImportError:
