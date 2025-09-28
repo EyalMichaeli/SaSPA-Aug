@@ -16,7 +16,8 @@ import torch
 import torch.nn as nn
 import torchvision.transforms as T
 import clip.clip as clip
-
+import sys
+sys.path.append("/home/devel/temp/school/SaSPA-Aug/repos/repos/SaSPA-Aug")
 try:
     import lpips
 except ImportError:
@@ -819,14 +820,9 @@ def calc_lpips_given_aug_json(dataset, aug_json, net, compute_on=3000, resize_to
 
 
 if __name__ == "__main__":
-    """
-    CUDA_VISIBLE_DEVICES=1 python /mnt/raid/home/user_name/git/thesis_utils/all_utils/utils.py
-    CUDA_VISIBLE_DEVICES=2 nohup python /mnt/raid/home/eyal_michaeli/git/thesis_utils/all_utils/utils.py > /mnt/raid/home/eyal_michaeli/git/thesis_utils/all_utils/utils2.log 2>&1 &
-    """
-    pass
     # Generate a json file with the augmented images paths
-    DATASET = "cars"  
-    AUG_FOLDER = "/mnt/raid/home/eyal_michaeli/datasets/dogs/aug_data/controlnet/blip_diffusion/canny/gpt-meta_class_prompt_w_sub_class_style_img_from_diff_img/v1-res_512-num_2-gs_7.5-num_inf_steps_30_controlnet_scale_0.75_low_120_high_200_seed_1/images"
+    DATASET = "planes"  
+    AUG_FOLDER = "<output_folder>/images"
 
     CLIP_FILTERING_TYPE = None  # out of "per_class" only for now.
     SEMANTIC_FILTERING = 1
