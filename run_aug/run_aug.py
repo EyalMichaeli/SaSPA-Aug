@@ -557,7 +557,7 @@ if __name__ == "__main__":
 
     ############################## code start ##############################
 
-    if "cars" in dataset.lower():
+    if "cars" in DATASET.lower():
         NUM_INFERENCE_STEPS = 50
         print(f"Using NUM_INFERENCE_STEPS = {NUM_INFERENCE_STEPS}")
 
