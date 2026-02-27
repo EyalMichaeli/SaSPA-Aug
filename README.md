@@ -1,4 +1,4 @@
-# SaSPA: Advancing Fine-Grained Classification by Structure and Subject Preserving Augmentation
+# SaSPA: Advancing Fine-Grained Classification by Structure and Subject Preserving Augmentation with Diffusion Models
 
 ### 🏆 Accepted to NeurIPS 2024!  
 [NeurIPS 2024 Poster](https://neurips.cc/virtual/2024/poster/95527)
